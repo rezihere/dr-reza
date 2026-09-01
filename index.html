@@ -3,54 +3,66 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 ```
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta name="description"
-    content="Dr. Muhammad Fahreza - Dokter Umum yang berbagi edukasi kesehatan, gizi, olahraga, obesitas, diabetes, hipertensi, dan pencegahan stunting.">
-
+<meta name="description" content="Dr. Muhammad Fahreza - Dokter Umum yang berbagi edukasi kesehatan, gizi, olahraga, obesitas, diabetes, hipertensi, dan pencegahan stunting.">
 <meta name="author" content="Dr. Muhammad Fahreza">
 
-<title>Dr. Muhammad Fahreza | Dokter Umum & Edukasi Kesehatan</title>
-
-<link rel="stylesheet" href="css/style.css">
+<title>Dr. Muhammad Fahreza — Dokter Umum & Health Educator</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
 ```
 
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
 
-<header class="navbar">
-    <div class="container nav-container">
+<header class="site-header">
 
 ```
-    <a href="index.html" class="logo">
-        <span class="logo-icon">DR</span>
-        <span class="logo-text">
+<div class="nav-container">
+
+    <a href="index.html" class="brand">
+
+        <span class="brand-mark">DR</span>
+
+        <span class="brand-name">
             <strong>Dr. Reza</strong>
             <small>Health & Nutrition</small>
         </span>
+
     </a>
 
-    <button class="menu-toggle" id="menuToggle" aria-label="Buka menu">
-        ☰
+
+    <button
+        class="mobile-menu-button"
+        id="mobileMenuButton"
+        aria-label="Buka menu"
+        aria-expanded="false"
+    >
+        <span></span>
+        <span></span>
+        <span></span>
     </button>
 
-    <nav class="nav-menu" id="navMenu">
 
-        <a href="index.html" class="active">Home</a>
+    <nav class="main-nav" id="mainNav">
+
+        <a href="#home" class="active">Home</a>
 
         <a href="#tools">Tools</a>
 
-        <a href="#about">Tentang Saya</a>
+        <a href="#about">Tentang</a>
 
         <a href="#education">Edukasi</a>
 
@@ -63,56 +75,71 @@
 
 </header>
 
-<!-- ================= HERO ================= -->
-
 <main>
 
-<section class="hero">
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero" id="home">
 
 ```
-<div class="container hero-container">
+<div class="hero-background-shape"></div>
 
-    <div class="hero-content">
+<div class="hero-container">
 
-        <span class="eyebrow">
-            👋 Halo, saya
-        </span>
+    <div class="hero-copy">
+
+        <div class="eyebrow">
+
+            <span class="eyebrow-dot"></span>
+
+            DOKTER UMUM • HEALTH EDUCATOR
+
+        </div>
+
 
         <h1>
-            Dr. Muhammad
-            <span>Fahreza</span>
+
+            Memahami kesehatan
+            <span>dimulai dari memahami</span>
+            tubuh sendiri.
+
         </h1>
 
-        <h2>
-            Dokter Umum & Health Educator
-        </h2>
 
-        <p>
-            Dokter umum yang aktif praktik di klinik kesehatan
-            dan sedang menjalani perjalanan untuk hidup lebih sehat
-            melalui olahraga dan pengaturan pola makan.
+        <p class="hero-description">
+
+            Halo, saya <strong>Dr. Muhammad Fahreza</strong>.
+            Saya aktif praktik sebagai dokter umum di klinik
+            kesehatan dan juga sedang menjalani perjalanan
+            untuk hidup lebih sehat melalui olahraga dan
+            pengaturan pola makan.
+
         </p>
 
-        <p>
-            Di sini saya berbagi edukasi kesehatan dengan bahasa
-            yang sederhana sekaligus menyediakan tools untuk
-            membantu Anda memahami <strong>gizi, berat badan,
-            dan kesehatan metabolik.</strong>
-        </p>
 
-        <div class="hero-buttons">
+        <div class="hero-actions">
 
-            <a href="#tools" class="btn btn-primary">
-                🧮 Kalkulator Gizi
+            <a href="#tools" class="button button-primary">
+
+                <span>Mulai dari sini</span>
+
+                <span class="button-arrow">↗</span>
+
             </a>
 
-            <a href="#education" class="btn btn-secondary">
-                📚 Baca Edukasi
+
+            <a href="#about" class="button button-ghost">
+
+                Kenali saya
+
             </a>
 
         </div>
 
-        <div class="focus-tags">
+
+        <div class="hero-focus">
 
             <span>Stunting</span>
             <span>Obesitas</span>
@@ -124,12 +151,11 @@
     </div>
 
 
-    <div class="hero-image-wrapper">
+    <div class="hero-visual">
 
-        <div class="hero-decoration decoration-one"></div>
-        <div class="hero-decoration decoration-two"></div>
+        <div class="image-backdrop"></div>
 
-        <div class="hero-image">
+        <div class="image-frame">
 
             <img
                 src="images/foto-dr-reza.jpg"
@@ -138,15 +164,28 @@
 
         </div>
 
-        <div class="doctor-badge">
 
-            <div class="badge-icon">
-                ✓
-            </div>
+        <div class="image-number">
+
+            <span>01</span>
+
+            <div></div>
+
+            <small>
+                Doctor<br>
+                & Educator
+            </small>
+
+        </div>
+
+
+        <div class="experience-card">
+
+            <span class="experience-icon">✦</span>
 
             <div>
-                <strong>Dokter Umum</strong>
-                <small>Aktif Praktik</small>
+                <strong>Health</strong>
+                <small>Made Simple</small>
             </div>
 
         </div>
@@ -154,49 +193,47 @@
     </div>
 
 </div>
+
+
+<div class="hero-scroll">
+
+    <span></span>
+
+    SCROLL TO EXPLORE
+
+</div>
 ```
 
 </section>
 
-<!-- ================= INTRO STATS ================= -->
+<!-- =====================================================
+     INTRO STRIP
+===================================================== -->
 
-<section class="quick-info">
+<section class="intro-strip">
 
 ```
-<div class="container quick-info-grid">
+<div class="intro-inner">
 
-    <div class="info-card">
+    <div class="intro-label">
 
-        <div class="info-icon">🩺</div>
-
-        <div>
-            <strong>Praktik Klinis</strong>
-            <span>Aktif memberikan pelayanan kesehatan</span>
-        </div>
+        WHAT I TALK ABOUT
 
     </div>
 
 
-    <div class="info-card">
+    <div class="intro-items">
 
-        <div class="info-icon">🥗</div>
+        <span>Nutrition</span>
+        <i>•</i>
 
-        <div>
-            <strong>Gizi & Nutrisi</strong>
-            <span>Memahami kebutuhan gizi secara praktis</span>
-        </div>
+        <span>Healthy Lifestyle</span>
+        <i>•</i>
 
-    </div>
+        <span>Metabolic Health</span>
+        <i>•</i>
 
-
-    <div class="info-card">
-
-        <div class="info-icon">🏃</div>
-
-        <div>
-            <strong>Healthy Lifestyle</strong>
-            <span>Olahraga dan perubahan gaya hidup</span>
-        </div>
+        <span>Weight Management</span>
 
     </div>
 
@@ -205,51 +242,76 @@
 
 </section>
 
-<!-- ================= TOOLS ================= -->
+<!-- =====================================================
+     TOOLS
+===================================================== -->
 
 <section class="tools-section section" id="tools">
 
 ```
-<div class="container">
+<div class="section-container">
 
-    <div class="section-heading">
+    <div class="section-top">
 
-        <span class="section-label">
-            HEALTH TOOLS
-        </span>
+        <div>
 
-        <h2>
-            Kenali kebutuhan tubuh Anda
-        </h2>
+            <span class="section-kicker">
+                HEALTH TOOLS
+            </span>
+
+            <h2>
+                Tools untuk memahami
+                <span>kebutuhan tubuh.</span>
+            </h2>
+
+        </div>
+
 
         <p>
-            Gunakan kalkulator kesehatan untuk mendapatkan
-            gambaran awal mengenai kebutuhan energi dan gizi Anda.
+            Tidak perlu menebak-nebak. Gunakan tools sederhana
+            untuk mendapatkan gambaran awal mengenai kebutuhan
+            energi dan gizi Anda.
         </p>
 
     </div>
 
 
-    <div class="tools-grid">
+    <div class="tools-layout">
 
-        <a href="kalkulator-dewasa.html" class="tool-card">
+        <!-- FEATURED TOOL -->
 
-            <div class="tool-icon">
-                ⚖️
+        <a href="kalkulator-dewasa.html" class="tool-feature">
+
+            <div class="tool-feature-top">
+
+                <span class="tool-number">
+                    01
+                </span>
+
+                <span class="tool-icon-large">
+                    ↗
+                </span>
+
             </div>
 
-            <div>
+
+            <div class="tool-feature-content">
+
+                <span class="tool-category">
+                    CALCULATOR
+                </span>
 
                 <h3>
                     Kalkulator Gizi Dewasa
                 </h3>
 
                 <p>
-                    Hitung BMI, BMR, TDEE, kebutuhan kalori,
-                    dan rekomendasi macro.
+                    Hitung BMI, BMR, TDEE, target kalori,
+                    hingga rekomendasi protein, karbohidrat
+                    dan lemak berdasarkan tujuan Anda.
                 </p>
 
-                <span class="tool-link">
+                <span class="tool-cta">
                     Mulai menghitung →
                 </span>
 
@@ -258,56 +320,76 @@
         </a>
 
 
-        <a href="kalkulator-anak.html" class="tool-card">
+        <div class="tool-side">
 
-            <div class="tool-icon">
-                👶
-            </div>
+            <a href="kalkulator-anak.html" class="tool-small">
 
-            <div>
+                <div class="tool-small-number">
+                    02
+                </div>
 
-                <h3>
-                    Kalkulator Gizi Anak
-                </h3>
+                <div class="tool-small-content">
 
-                <p>
-                    Estimasi kebutuhan energi, protein,
-                    karbohidrat, lemak, dan gula.
-                </p>
+                    <span>
+                        CHILD NUTRITION
+                    </span>
 
-                <span class="tool-link">
-                    Mulai menghitung →
-                </span>
+                    <h3>
+                        Kalkulator Gizi Anak
+                    </h3>
 
-            </div>
+                    <p>
+                        Estimasi kebutuhan energi dan
+                        zat gizi anak.
+                    </p>
 
-        </a>
+                    <strong>
+                        Buka tool →
+                    </strong>
+
+                </div>
+
+                <div class="tool-small-arrow">
+                    ↗
+                </div>
+
+            </a>
 
 
-        <a href="food-logger.html" class="tool-card">
+            <a href="food-logger.html" class="tool-small">
 
-            <div class="tool-icon">
-                🍱
-            </div>
+                <div class="tool-small-number">
+                    03
+                </div>
 
-            <div>
+                <div class="tool-small-content">
 
-                <h3>
-                    Food Logger
-                </h3>
+                    <span>
+                        DAILY TRACKER
+                    </span>
 
-                <p>
-                    Catat makanan harian dan pantau
-                    kalori serta macro Anda.
-                </p>
+                    <h3>
+                        Food Logger
+                    </h3>
 
-                <span class="tool-link">
-                    Catat makanan →
-                </span>
+                    <p>
+                        Catat makanan dan pantau
+                        kalori serta macro harian.
+                    </p>
 
-            </div>
+                    <strong>
+                        Catat makanan →
+                    </strong>
 
-        </a>
+                </div>
+
+                <div class="tool-small-arrow">
+                    ↗
+                </div>
+
+            </a>
+
+        </div>
 
     </div>
 
@@ -316,97 +398,151 @@
 
 </section>
 
-<!-- ================= GOAL ================= -->
+<!-- =====================================================
+     PERSONAL GOALS
+===================================================== -->
 
-<section class="goal-section section" id="meal-plan">
+<section class="goals-section section" id="meal-plan">
 
 ```
-<div class="container">
+<div class="section-container">
 
-    <div class="section-heading">
+    <div class="goals-heading">
 
-        <span class="section-label">
-            PERSONAL GOAL
+        <span class="section-kicker">
+            YOUR GOAL
         </span>
 
         <h2>
-            Apa tujuan Anda?
+            Setiap tujuan punya
+            <span>strategi yang berbeda.</span>
         </h2>
 
         <p>
-            Kebutuhan kalori dan macro setiap orang berbeda.
-            Pilih tujuan Anda untuk mendapatkan rekomendasi yang lebih sesuai.
+            Tidak semua orang membutuhkan jumlah kalori
+            dan macro yang sama. Tentukan tujuan Anda,
+            lalu kita susun strateginya.
         </p>
 
     </div>
 
 
-    <div class="goal-grid">
+    <div class="goal-list">
 
-        <a href="meal-plan.html?goal=fatloss" class="goal-card">
 
-            <div class="goal-icon">
-                🔥
+        <a href="meal-plan.html?goal=fatloss" class="goal-item">
+
+            <div class="goal-index">
+                01
             </div>
 
-            <h3>
-                Fat Loss
-            </h3>
+            <div class="goal-main">
+
+                <div class="goal-symbol">
+                    ↘
+                </div>
+
+                <div>
+
+                    <span>
+                        WEIGHT MANAGEMENT
+                    </span>
+
+                    <h3>
+                        Fat Loss
+                    </h3>
+
+                </div>
+
+            </div>
 
             <p>
-                Membantu mengatur pola makan dengan
-                defisit kalori secara terukur.
+                Strategi defisit kalori yang realistis
+                untuk membantu menurunkan berat badan.
             </p>
 
-            <span>
-                Mulai →
+            <span class="goal-arrow">
+                →
             </span>
 
         </a>
 
 
-        <a href="meal-plan.html?goal=maintenance" class="goal-card">
+        <a href="meal-plan.html?goal=maintenance" class="goal-item">
 
-            <div class="goal-icon">
-                ⚖️
+            <div class="goal-index">
+                02
             </div>
 
-            <h3>
-                Maintenance
-            </h3>
+            <div class="goal-main">
+
+                <div class="goal-symbol">
+                    =
+                </div>
+
+                <div>
+
+                    <span>
+                        WEIGHT MANAGEMENT
+                    </span>
+
+                    <h3>
+                        Maintenance
+                    </h3>
+
+                </div>
+
+            </div>
 
             <p>
-                Menjaga berat badan dengan kebutuhan
-                energi yang sesuai.
+                Menjaga berat badan dengan asupan energi
+                yang sesuai dengan kebutuhan tubuh.
             </p>
 
-            <span>
-                Mulai →
+            <span class="goal-arrow">
+                →
             </span>
 
         </a>
 
 
-        <a href="meal-plan.html?goal=bulking" class="goal-card">
+        <a href="meal-plan.html?goal=bulking" class="goal-item">
 
-            <div class="goal-icon">
-                💪
+            <div class="goal-index">
+                03
             </div>
 
-            <h3>
-                Bulking
-            </h3>
+            <div class="goal-main">
+
+                <div class="goal-symbol">
+                    ↗
+                </div>
+
+                <div>
+
+                    <span>
+                        MUSCLE & WEIGHT GAIN
+                    </span>
+
+                    <h3>
+                        Bulking
+                    </h3>
+
+                </div>
+
+            </div>
 
             <p>
-                Mendukung peningkatan berat badan dan
-                massa otot dengan strategi nutrisi.
+                Strategi surplus kalori dan protein untuk
+                mendukung peningkatan massa tubuh dan otot.
             </p>
 
-            <span>
-                Mulai →
+            <span class="goal-arrow">
+                →
             </span>
 
         </a>
+
 
     </div>
 
@@ -415,63 +551,110 @@
 
 </section>
 
-<!-- ================= ABOUT ================= -->
+<!-- =====================================================
+     ABOUT
+===================================================== -->
 
 <section class="about-section section" id="about">
 
 ```
-<div class="container about-container">
+<div class="section-container about-grid">
 
-    <div class="about-image">
+    <div class="about-visual">
 
-        <img
-            src="images/foto-dr-reza.jpg"
-            alt="Dr. Muhammad Fahreza"
-        >
+        <div class="about-image">
+
+            <img
+                src="images/foto-dr-reza.jpg"
+                alt="Dr. Muhammad Fahreza"
+            >
+
+        </div>
+
+        <div class="about-caption">
+
+            <strong>
+                Dr. Muhammad Fahreza
+            </strong>
+
+            <span>
+                Dokter Umum
+            </span>
+
+        </div>
 
     </div>
 
 
-    <div class="about-content">
+    <div class="about-copy">
 
-        <span class="section-label">
-            TENTANG SAYA
+        <span class="section-kicker">
+            ABOUT ME
         </span>
 
         <h2>
-            Kesehatan bukan tentang menjadi sempurna.
-            Tapi tentang menjadi lebih baik.
+            Dokter, tapi juga sedang
+            menjalani perjalanan
+            <span>yang sama.</span>
         </h2>
 
-        <p>
-            Saya adalah <strong>Dr. Muhammad Fahreza</strong>,
-            dokter umum yang aktif praktik di klinik kesehatan.
+
+        <p class="about-lead">
+
+            Saya percaya bahwa gaya hidup sehat bukan sesuatu
+            yang harus terlihat sempurna. Yang lebih penting
+            adalah menemukan cara yang realistis dan bisa
+            dilakukan secara konsisten.
+
         </p>
 
-        <p>
-            Selain menjalani aktivitas sebagai dokter, saya juga
-            sedang menjalani perjalanan untuk menurunkan berat badan
-            dan membangun pola hidup yang lebih sehat.
-        </p>
 
         <p>
-            Karena itu, saya tertarik membahas hubungan antara
-            <strong>pola makan, aktivitas fisik, berat badan,
-            dan kesehatan metabolik.</strong>
+
+            Saya aktif praktik sebagai dokter umum di klinik
+            kesehatan. Di luar aktivitas klinis, saya juga
+            sedang menjalani perjalanan untuk menurunkan berat
+            badan dan membangun kebiasaan hidup yang lebih sehat.
+
         </p>
+
 
         <p>
-            Melalui website ini saya ingin membuat informasi kesehatan
-            menjadi lebih mudah dipahami dan lebih mudah diterapkan
-            dalam kehidupan sehari-hari.
+
+            Dari pengalaman tersebut, saya semakin tertarik
+            membahas hubungan antara <strong>gizi, aktivitas
+            fisik, berat badan, dan kesehatan metabolik.</strong>
+
         </p>
 
-        <div class="about-focus">
 
-            <span>🧒 Stunting</span>
-            <span>⚖️ Obesitas</span>
-            <span>🩸 Diabetes</span>
-            <span>❤️ Hipertensi</span>
+        <p>
+
+            Melalui website ini, saya ingin berbagi informasi
+            kesehatan dengan bahasa yang sederhana dan membuat
+            tools yang benar-benar bisa digunakan dalam
+            kehidupan sehari-hari.
+
+        </p>
+
+
+        <div class="about-topics">
+
+            <span>
+                Stunting
+            </span>
+
+            <span>
+                Obesitas
+            </span>
+
+            <span>
+                Diabetes
+            </span>
+
+            <span>
+                Hipertensi
+            </span>
 
         </div>
 
@@ -482,50 +665,136 @@
 
 </section>
 
-<!-- ================= EDUCATION ================= -->
+<!-- =====================================================
+     EDUCATION
+===================================================== -->
 
 <section class="education-section section" id="education">
 
 ```
-<div class="container">
+<div class="section-container">
 
-    <div class="section-heading">
+    <div class="education-heading">
 
-        <span class="section-label">
-            EDUKASI
-        </span>
+        <div>
 
-        <h2>
-            Belajar kesehatan tanpa bahasa yang ribet
-        </h2>
+            <span class="section-kicker">
+                HEALTH EDUCATION
+            </span>
 
-        <p>
-            Artikel kesehatan dan gizi yang dibuat agar
-            lebih mudah dipahami dan diterapkan.
-        </p>
+            <h2>
+                Belajar kesehatan,
+                <span>tanpa bahasa yang ribet.</span>
+            </h2>
+
+        </div>
+
+        <a href="artikel.html" class="text-link">
+            Lihat semua artikel →
+        </a>
 
     </div>
 
 
-    <div class="article-placeholder">
+    <div class="education-grid">
 
-        <div class="placeholder-icon">
-            📚
-        </div>
 
-        <h3>
-            Artikel kesehatan segera hadir
-        </h3>
+        <article class="article-card article-featured">
 
-        <p>
-            Nantinya Anda bisa menemukan artikel tentang
-            nutrisi, obesitas, diabetes, hipertensi,
-            stunting, olahraga, dan gaya hidup sehat di sini.
-        </p>
+            <div class="article-image-placeholder">
 
-        <a href="artikel.html" class="btn btn-secondary">
-            Lihat Semua Edukasi
-        </a>
+                <span>
+                    NUTRITION
+                </span>
+
+            </div>
+
+            <div class="article-content">
+
+                <span class="article-meta">
+                    GIZI • FEATURED
+                </span>
+
+                <h3>
+                    Memahami kebutuhan kalori
+                    tanpa harus takut dengan angka.
+                </h3>
+
+                <p>
+                    Mengenal BMR, TDEE dan bagaimana
+                    menggunakannya untuk menentukan
+                    kebutuhan energi sehari-hari.
+                </p>
+
+                <a href="artikel.html">
+                    Baca artikel →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <article class="article-card">
+
+            <div class="article-number">
+                02
+            </div>
+
+            <div class="article-content">
+
+                <span class="article-meta">
+                    METABOLIC HEALTH
+                </span>
+
+                <h3>
+                    Obesitas bukan hanya
+                    soal berat badan.
+                </h3>
+
+                <p>
+                    Memahami hubungan berat badan
+                    dengan kesehatan metabolik.
+                </p>
+
+                <a href="artikel.html">
+                    Segera hadir →
+                </a>
+
+            </div>
+
+        </article>
+
+
+        <article class="article-card">
+
+            <div class="article-number">
+                03
+            </div>
+
+            <div class="article-content">
+
+                <span class="article-meta">
+                    CHILD HEALTH
+                </span>
+
+                <h3>
+                    Mengapa pencegahan
+                    stunting dimulai sejak dini?
+                </h3>
+
+                <p>
+                    Mengenal pentingnya nutrisi
+                    dalam tumbuh kembang anak.
+                </p>
+
+                <a href="artikel.html">
+                    Segera hadir →
+                </a>
+
+            </div>
+
+        </article>
 
     </div>
 
@@ -534,33 +803,44 @@
 
 </section>
 
-<!-- ================= CTA ================= -->
+<!-- =====================================================
+     CTA
+===================================================== -->
 
-<section class="cta-section">
+<section class="final-cta">
 
 ```
-<div class="container cta-container">
+<div class="cta-inner">
 
-    <div>
+    <div class="cta-number">
+        04
+    </div>
 
-        <span class="section-label">
-            START YOUR JOURNEY
+
+    <div class="cta-content">
+
+        <span>
+            START YOUR HEALTH JOURNEY
         </span>
 
         <h2>
-            Sudah tahu berapa kebutuhan kalori Anda?
+            Mulai dengan memahami
+            kebutuhan tubuh Anda.
         </h2>
 
-        <p>
-            Mulai dengan menghitung BMI, BMR, TDEE,
-            dan kebutuhan macro Anda.
-        </p>
+        <a href="kalkulator-dewasa.html" class="button button-light">
+
+            <span>
+                Hitung kebutuhan gizi
+            </span>
+
+            <span>
+                ↗
+            </span>
+
+        </a>
 
     </div>
-
-    <a href="kalkulator-dewasa.html" class="btn btn-light">
-        Hitung Sekarang →
-    </a>
 
 </div>
 ```
@@ -569,56 +849,51 @@
 
 </main>
 
-<!-- ================= FOOTER ================= -->
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
-<footer class="footer">
+<footer class="site-footer">
 
 ```
-<div class="container footer-container">
+<div class="footer-main">
 
     <div class="footer-brand">
 
-        <div class="logo footer-logo">
+        <a href="index.html" class="brand">
 
-            <span class="logo-icon">
+            <span class="brand-mark">
                 DR
             </span>
 
-            <span class="logo-text">
-
-                <strong>
-                    Dr. Reza
-                </strong>
-
-                <small>
-                    Health & Nutrition
-                </small>
-
+            <span class="brand-name">
+                <strong>Dr. Reza</strong>
+                <small>Health & Nutrition</small>
             </span>
 
-        </div>
+        </a>
+
 
         <p>
-            Edukasi kesehatan, gizi, dan gaya hidup
-            untuk membantu Anda membuat keputusan
-            kesehatan yang lebih baik.
+            Edukasi kesehatan, gizi dan gaya hidup
+            dengan bahasa yang sederhana.
         </p>
 
     </div>
 
 
-    <div class="footer-links">
+    <div class="footer-column">
 
         <h4>
-            Navigasi
+            Explore
         </h4>
-
-        <a href="index.html">
-            Home
-        </a>
 
         <a href="#tools">
             Health Tools
+        </a>
+
+        <a href="#meal-plan">
+            Meal Planner
         </a>
 
         <a href="#education">
@@ -632,7 +907,7 @@
     </div>
 
 
-    <div class="footer-links">
+    <div class="footer-column">
 
         <h4>
             Tools
@@ -661,20 +936,14 @@
 
 <div class="footer-bottom">
 
-    <div class="container">
+    <span>
+        © <span id="currentYear"></span>
+        Dr. Muhammad Fahreza
+    </span>
 
-        <p>
-            © 2026 Dr. Muhammad Fahreza.
-            Semua hak cipta dilindungi.
-        </p>
-
-        <p class="disclaimer">
-            Informasi pada website ini bersifat edukatif
-            dan tidak menggantikan konsultasi langsung
-            dengan tenaga kesehatan.
-        </p>
-
-    </div>
+    <span>
+        Informasi bersifat edukatif dan tidak menggantikan konsultasi medis.
+    </span>
 
 </div>
 ```
