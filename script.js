@@ -1,128 +1,158 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =====================================================
+       MOBILE MENU
+    ===================================================== */
+
+    const menuToggle =
+        document.getElementById("menuToggle");
+
+    const mainNav =
+        document.getElementById("mainNav");
 
 
-/* =====================================================
-   MOBILE NAVIGATION
-===================================================== */
+    if (menuToggle && mainNav) {
 
-const menuButton =
-    document.getElementById("mobileMenuButton");
+        menuToggle.addEventListener(
+            "click",
+            function () {
 
-const mainNav =
-    document.getElementById("mainNav");
+                const isOpen =
+                    mainNav.classList.toggle("open");
 
+                menuToggle.setAttribute(
+                    "aria-expanded",
+                    isOpen
+                );
 
-if (menuButton && mainNav) {
-
-    menuButton.addEventListener("click", () => {
-
-        const isOpen =
-            mainNav.classList.toggle("open");
-
-        menuButton.setAttribute(
-            "aria-expanded",
-            isOpen
+            }
         );
 
-    });
+
+        const navLinks =
+            mainNav.querySelectorAll("a");
 
 
-    const navLinks =
-        mainNav.querySelectorAll("a");
+        navLinks.forEach(function (link) {
 
-    navLinks.forEach(link => {
+            link.addEventListener(
+                "click",
+                function () {
 
-        link.addEventListener("click", () => {
+                    mainNav.classList.remove("open");
 
-            mainNav.classList.remove("open");
+                    menuToggle.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
 
-            menuButton.setAttribute(
-                "aria-expanded",
-                "false"
+                }
             );
 
         });
 
-    });
-
-}
+    }
 
 
-/* =====================================================
-   CURRENT YEAR
-===================================================== */
+    /* =====================================================
+       CURRENT YEAR
+    ===================================================== */
 
-const yearElement =
-    document.getElementById("currentYear");
+    const year =
+        document.getElementById("year");
 
-if (yearElement) {
+    if (year) {
 
-    yearElement.textContent =
-        new Date().getFullYear();
+        year.textContent =
+            new Date().getFullYear();
 
-}
-
-
-/* =====================================================
-   ACTIVE NAVIGATION
-===================================================== */
-
-const sections =
-    document.querySelectorAll("main section[id]");
-
-const navLinks =
-    document.querySelectorAll(".main-nav a");
+    }
 
 
-const updateActiveNavigation = () => {
+    /* =====================================================
+       ACTIVE NAVIGATION
+    ===================================================== */
 
-    let currentSection = "";
+    const sections =
+        document.querySelectorAll(
+            "main section[id]"
+        );
 
-    sections.forEach(section => {
+    const navLinks =
+        document.querySelectorAll(
+            ".main-nav a"
+        );
 
-        const sectionTop =
-            section.offsetTop - 160;
 
-        if (
-            window.scrollY >= sectionTop
-        ) {
+    function updateNavigation() {
 
-            currentSection =
-                section.getAttribute("id");
+        let current =
+            "home";
 
+
+        sections.forEach(
+            function (section) {
+
+                const sectionTop =
+                    section.offsetTop - 180;
+
+
+                if (
+                    window.scrollY >=
+                    sectionTop
+                ) {
+
+                    current =
+                        section.getAttribute(
+                            "id"
+                        );
+
+                }
+
+            }
+        );
+
+
+        navLinks.forEach(
+            function (link) {
+
+                link.classList.remove(
+                    "active"
+                );
+
+
+                const href =
+                    link.getAttribute(
+                        "href"
+                    );
+
+
+                if (
+                    href ===
+                    "#" + current
+                ) {
+
+                    link.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    window.addEventListener(
+        "scroll",
+        updateNavigation,
+        {
+            passive: true
         }
-
-    });
-
-
-    navLinks.forEach(link => {
-
-        link.classList.remove("active");
-
-        const target =
-            link.getAttribute("href");
-
-        if (
-            target === `#${currentSection}`
-        ) {
-
-            link.classList.add("active");
-
-        }
-
-    });
-
-};
+    );
 
 
-window.addEventListener(
-    "scroll",
-    updateActiveNavigation,
-    { passive: true }
-);
-
-
-updateActiveNavigation();
-
+    updateNavigation();
 
 });
