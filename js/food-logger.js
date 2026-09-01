@@ -1,4 +1,4 @@
-```javascript
+javascript
 /* =========================================================
    DR. REZA HEALTH & NUTRITION
    FOOD LOGGER 3.0
@@ -3025,4 +3025,3 @@ window.drRezaFoodLogger = {
 
 
 });
-```
