@@ -1,32 +1,45 @@
-/* ==========================================
-DR. REZA
-MAIN JAVASCRIPT
-========================================== */
+document.addEventListener("DOMContentLoaded", () => {
 
-document.addEventListener("DOMContentLoaded", function () {
 
-```
-const menuToggle = document.getElementById("menuToggle");
-const navMenu = document.getElementById("navMenu");
+/* =====================================================
+   MOBILE NAVIGATION
+===================================================== */
 
-if (menuToggle && navMenu) {
+const menuButton =
+    document.getElementById("mobileMenuButton");
 
-    menuToggle.addEventListener("click", function () {
+const mainNav =
+    document.getElementById("mainNav");
 
-        navMenu.classList.toggle("active");
+
+if (menuButton && mainNav) {
+
+    menuButton.addEventListener("click", () => {
+
+        const isOpen =
+            mainNav.classList.toggle("open");
+
+        menuButton.setAttribute(
+            "aria-expanded",
+            isOpen
+        );
 
     });
 
 
-    /* Tutup menu ketika link diklik */
+    const navLinks =
+        mainNav.querySelectorAll("a");
 
-    const navLinks = navMenu.querySelectorAll("a");
+    navLinks.forEach(link => {
 
-    navLinks.forEach(function (link) {
+        link.addEventListener("click", () => {
 
-        link.addEventListener("click", function () {
+            mainNav.classList.remove("open");
 
-            navMenu.classList.remove("active");
+            menuButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
 
         });
 
@@ -35,42 +48,81 @@ if (menuToggle && navMenu) {
 }
 
 
-/* ==========================================
-   UPDATE COPYRIGHT YEAR
-   ========================================== */
+/* =====================================================
+   CURRENT YEAR
+===================================================== */
 
-const yearElements =
-    document.querySelectorAll(".current-year");
+const yearElement =
+    document.getElementById("currentYear");
 
-const currentYear =
-    new Date().getFullYear();
+if (yearElement) {
 
-yearElements.forEach(function (element) {
+    yearElement.textContent =
+        new Date().getFullYear();
 
-    element.textContent = currentYear;
-
-});
+}
 
 
-/* ==========================================
-   IMAGE ERROR HANDLER
-   ========================================== */
+/* =====================================================
+   ACTIVE NAVIGATION
+===================================================== */
 
-const images =
-    document.querySelectorAll("img");
+const sections =
+    document.querySelectorAll("main section[id]");
 
-images.forEach(function (image) {
+const navLinks =
+    document.querySelectorAll(".main-nav a");
 
-    image.addEventListener("error", function () {
 
-        console.warn(
-            "Gambar tidak ditemukan:",
-            image.src
-        );
+const updateActiveNavigation = () => {
+
+    let currentSection = "";
+
+    sections.forEach(section => {
+
+        const sectionTop =
+            section.offsetTop - 160;
+
+        if (
+            window.scrollY >= sectionTop
+        ) {
+
+            currentSection =
+                section.getAttribute("id");
+
+        }
 
     });
 
-});
-```
+
+    navLinks.forEach(link => {
+
+        link.classList.remove("active");
+
+        const target =
+            link.getAttribute("href");
+
+        if (
+            target === `#${currentSection}`
+        ) {
+
+            link.classList.add("active");
+
+        }
+
+    });
+
+};
+
+
+window.addEventListener(
+    "scroll",
+    updateActiveNavigation,
+    { passive: true }
+);
+
+
+updateActiveNavigation();
+
 
 });
