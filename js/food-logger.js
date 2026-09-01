@@ -1,51 +1,63 @@
+```javascript
 /* =========================================================
-DR. REZA HEALTH & NUTRITION
-FOOD LOGGER 2.0
-Automatic Nutrition Calculator
+   DR. REZA HEALTH & NUTRITION
+   FOOD LOGGER 3.0
+
+   Hybrid Food Search
+   Local Food Database + Cloudflare Worker + USDA
+
+   Cloudflare Worker:
+   https://dr-reza-food-api.muhammadfahreza78.workers.dev/
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
- 
 "use strict";
 
 
-/* =====================================================
+/* =========================================================
+   CONFIGURATION
+========================================================= */
+
+const FOOD_API_URL =
+    "https://dr-reza-food-api.muhammadfahreza78.workers.dev/";
+
+
+/* =========================================================
    STORAGE
-===================================================== */
+========================================================= */
 
-const STORAGE_FOODS = "drReza_foodLogger_foods";
-const STORAGE_TARGET = "drReza_foodLogger_target";
-const STORAGE_DATE = "drReza_foodLogger_date";
+const STORAGE_FOODS =
+    "drReza_foodLogger_foods";
+
+const STORAGE_TARGET =
+    "drReza_foodLogger_target";
+
+const STORAGE_DATE =
+    "drReza_foodLogger_date";
 
 
-/* =====================================================
+/* =========================================================
    DEFAULT TARGET
-===================================================== */
+========================================================= */
 
 const defaultTarget = {
+
     calories: 2000,
     protein: 150,
     carbs: 200,
     fat: 60
+
 };
 
 
-/* =====================================================
-   FOOD DATABASE
-   
-   Nutritional values are per 100 g.
-   
-   IMPORTANT:
-   These values are estimates. Actual nutrition can
-   vary depending on variety, brand and preparation.
-===================================================== */
+/* =========================================================
+   LOCAL FOOD DATABASE
+   Fallback / common Indonesian foods
+   Values per 100 g
+========================================================= */
 
 const foodDatabase = [
-
-    /* =========================
-       CARBOHYDRATES
-    ========================= */
 
     {
         id: "nasi-putih",
@@ -53,7 +65,7 @@ const foodDatabase = [
         category: "Karbohidrat",
         calories: 130,
         protein: 2.7,
-        carbs: 28.0,
+        carbs: 28,
         fat: 0.3
     },
 
@@ -93,7 +105,7 @@ const foodDatabase = [
         category: "Karbohidrat",
         calories: 112,
         protein: 1.4,
-        carbs: 26.0,
+        carbs: 26,
         fat: 0.3
     },
 
@@ -102,8 +114,8 @@ const foodDatabase = [
         name: "Roti tawar",
         category: "Karbohidrat",
         calories: 266,
-        protein: 9.0,
-        carbs: 49.0,
+        protein: 9,
+        carbs: 49,
         fat: 3.2
     },
 
@@ -116,11 +128,6 @@ const foodDatabase = [
         carbs: 66.3,
         fat: 6.9
     },
-
-
-    /* =========================
-       PROTEIN
-    ========================= */
 
     {
         id: "telur-ayam",
@@ -137,7 +144,7 @@ const foodDatabase = [
         name: "Dada ayam tanpa kulit",
         category: "Protein",
         calories: 165,
-        protein: 31.0,
+        protein: 31,
         carbs: 0,
         fat: 3.6
     },
@@ -147,7 +154,7 @@ const foodDatabase = [
         name: "Paha ayam tanpa kulit",
         category: "Protein",
         calories: 209,
-        protein: 26.0,
+        protein: 26,
         carbs: 0,
         fat: 10.9
     },
@@ -167,7 +174,7 @@ const foodDatabase = [
         name: "Ikan tongkol",
         category: "Protein",
         calories: 117,
-        protein: 23.0,
+        protein: 23,
         carbs: 0,
         fat: 2.3
     },
@@ -179,7 +186,7 @@ const foodDatabase = [
         calories: 105,
         protein: 18.7,
         carbs: 0,
-        fat: 3.0
+        fat: 3
     },
 
     {
@@ -197,7 +204,7 @@ const foodDatabase = [
         name: "Udang",
         category: "Protein",
         calories: 99,
-        protein: 24.0,
+        protein: 24,
         carbs: 0.2,
         fat: 0.3
     },
@@ -222,11 +229,6 @@ const foodDatabase = [
         fat: 10.8
     },
 
-
-    /* =========================
-       VEGETABLES
-    ========================= */
-
     {
         id: "bayam",
         name: "Bayam",
@@ -242,7 +244,7 @@ const foodDatabase = [
         name: "Kangkung",
         category: "Sayuran",
         calories: 29,
-        protein: 3.0,
+        protein: 3,
         carbs: 5.4,
         fat: 0.3
     },
@@ -283,7 +285,7 @@ const foodDatabase = [
         category: "Sayuran",
         calories: 31,
         protein: 1.8,
-        carbs: 7.0,
+        carbs: 7,
         fat: 0.2
     },
 
@@ -296,11 +298,6 @@ const foodDatabase = [
         carbs: 3.9,
         fat: 0.2
     },
-
-
-    /* =========================
-       FRUITS
-    ========================= */
 
     {
         id: "pisang",
@@ -358,17 +355,12 @@ const foodDatabase = [
         category: "Buah",
         calories: 60,
         protein: 0.8,
-        carbs: 15.0,
+        carbs: 15,
         fat: 0.4
     },
 
-
-    /* =========================
-       MILK & DAIRY
-    ========================= */
-
     {
-        id: "susu-full-cream",
+        id: "susu",
         name: "Susu sapi full cream",
         category: "Susu",
         calories: 61,
@@ -387,17 +379,12 @@ const foodDatabase = [
         fat: 3.3
     },
 
-
-    /* =========================
-       OTHER
-    ========================= */
-
     {
         id: "alpukat",
         name: "Alpukat",
         category: "Lemak sehat",
         calories: 160,
-        protein: 2.0,
+        protein: 2,
         carbs: 8.5,
         fat: 14.7
     },
@@ -410,24 +397,14 @@ const foodDatabase = [
         protein: 25.8,
         carbs: 16.1,
         fat: 49.2
-    },
-
-    {
-        id: "kacang-kedelai",
-        name: "Kedelai",
-        category: "Protein",
-        calories: 446,
-        protein: 36.5,
-        carbs: 30.2,
-        fat: 19.9
     }
 
 ];
 
 
-/* =====================================================
+/* =========================================================
    ELEMENTS
-===================================================== */
+========================================================= */
 
 const targetCalories =
     document.getElementById("targetCalories");
@@ -463,9 +440,9 @@ const resetDay =
     document.getElementById("resetDay");
 
 
-/* =====================================================
+/* =========================================================
    SUMMARY
-===================================================== */
+========================================================= */
 
 const totalCalories =
     document.getElementById("totalCalories");
@@ -478,20 +455,6 @@ const totalCarbs =
 
 const totalFat =
     document.getElementById("totalFat");
-
-
-const displayTargetCalories =
-    document.getElementById("displayTargetCalories");
-
-const displayTargetProtein =
-    document.getElementById("displayTargetProtein");
-
-const displayTargetCarbs =
-    document.getElementById("displayTargetCarbs");
-
-const displayTargetFat =
-    document.getElementById("displayTargetFat");
-
 
 const remainingCalories =
     document.getElementById("remainingCalories");
@@ -506,9 +469,9 @@ const remainingFat =
     document.getElementById("remainingFat");
 
 
-/* =====================================================
+/* =========================================================
    PROGRESS
-===================================================== */
+========================================================= */
 
 const calorieProgress =
     document.getElementById("calorieProgress");
@@ -521,7 +484,6 @@ const carbsProgress =
 
 const fatProgress =
     document.getElementById("fatProgress");
-
 
 const caloriePercentage =
     document.getElementById("caloriePercentage");
@@ -536,9 +498,73 @@ const fatPercentage =
     document.getElementById("fatPercentage");
 
 
-/* =====================================================
+/* =========================================================
+   SEARCH ELEMENTS
+========================================================= */
+
+const foodSearch =
+    document.getElementById("foodSearch");
+
+const foodSearchResults =
+    document.getElementById("foodSearchResults");
+
+const foodSearchStatus =
+    document.getElementById("foodSearchStatus");
+
+const clearFoodSearch =
+    document.getElementById("clearFoodSearch");
+
+const selectedFood =
+    document.getElementById("selectedFood");
+
+const selectedFoodName =
+    document.getElementById("selectedFoodName");
+
+const selectedFoodSource =
+    document.getElementById("selectedFoodSource");
+
+const changeFood =
+    document.getElementById("changeFood");
+
+
+/* =========================================================
+   FORM ELEMENTS
+========================================================= */
+
+const foodAmount =
+    document.getElementById("foodAmount");
+
+const foodName =
+    document.getElementById("foodName");
+
+const foodCalories =
+    document.getElementById("foodCalories");
+
+const foodProtein =
+    document.getElementById("foodProtein");
+
+const foodCarbs =
+    document.getElementById("foodCarbs");
+
+const foodFat =
+    document.getElementById("foodFat");
+
+const previewCalories =
+    document.getElementById("previewCalories");
+
+const previewProtein =
+    document.getElementById("previewProtein");
+
+const previewCarbs =
+    document.getElementById("previewCarbs");
+
+const previewFat =
+    document.getElementById("previewFat");
+
+
+/* =========================================================
    NAVIGATION
-===================================================== */
+========================================================= */
 
 const menuToggle =
     document.getElementById("menuToggle");
@@ -590,9 +616,9 @@ if (menuToggle && navMenu) {
 }
 
 
-/* =====================================================
+/* =========================================================
    FOOTER
-===================================================== */
+========================================================= */
 
 const footerYear =
     document.getElementById("footerYear");
@@ -605,9 +631,9 @@ if (footerYear) {
 }
 
 
-/* =====================================================
+/* =========================================================
    DATE
-===================================================== */
+========================================================= */
 
 function getTodayKey() {
 
@@ -615,13 +641,17 @@ function getTodayKey() {
         new Date();
 
     return [
+
         date.getFullYear(),
+
         String(
             date.getMonth() + 1
         ).padStart(2, "0"),
+
         String(
             date.getDate()
         ).padStart(2, "0")
+
     ].join("-");
 
 }
@@ -651,9 +681,9 @@ if (currentDate) {
 }
 
 
-/* =====================================================
+/* =========================================================
    LOAD TARGET
-===================================================== */
+========================================================= */
 
 function loadTarget() {
 
@@ -664,7 +694,6 @@ function loadTarget() {
                 STORAGE_TARGET
             );
 
-
         if (!saved) {
 
             return {
@@ -673,10 +702,8 @@ function loadTarget() {
 
         }
 
-
         const parsed =
             JSON.parse(saved);
-
 
         return {
 
@@ -713,9 +740,9 @@ let target =
     loadTarget();
 
 
-/* =====================================================
+/* =========================================================
    LOAD FOODS
-===================================================== */
+========================================================= */
 
 function loadFoods() {
 
@@ -726,15 +753,14 @@ function loadFoods() {
                 STORAGE_FOODS
             );
 
-
         if (!saved) {
-            return [];
-        }
 
+            return [];
+
+        }
 
         const parsed =
             JSON.parse(saved);
-
 
         return Array.isArray(parsed)
             ? parsed
@@ -753,9 +779,9 @@ let foods =
     loadFoods();
 
 
-/* =====================================================
-   NEW DAY CHECK
-===================================================== */
+/* =========================================================
+   NEW DAY
+========================================================= */
 
 function checkNewDay() {
 
@@ -799,9 +825,9 @@ function checkNewDay() {
 checkNewDay();
 
 
-/* =====================================================
+/* =========================================================
    STORAGE
-===================================================== */
+========================================================= */
 
 function saveFoods() {
 
@@ -823,9 +849,9 @@ function saveTargetData() {
 }
 
 
-/* =====================================================
+/* =========================================================
    NUMBER FORMAT
-===================================================== */
+========================================================= */
 
 function formatNumber(
     value,
@@ -835,7 +861,6 @@ function formatNumber(
     const number =
         Number(value) || 0;
 
-
     if (Number.isInteger(number)) {
 
         return number.toLocaleString(
@@ -843,7 +868,6 @@ function formatNumber(
         );
 
     }
-
 
     return number.toLocaleString(
         "id-ID",
@@ -856,67 +880,46 @@ function formatNumber(
 }
 
 
-/* =====================================================
+/* =========================================================
    TARGET DISPLAY
-===================================================== */
+========================================================= */
 
 function updateTargetDisplay() {
 
     if (targetCalories) {
+
         targetCalories.value =
             target.calories;
+
     }
 
     if (targetProtein) {
+
         targetProtein.value =
             target.protein;
+
     }
 
     if (targetCarbs) {
+
         targetCarbs.value =
             target.carbs;
+
     }
 
     if (targetFat) {
+
         targetFat.value =
             target.fat;
-    }
-
-
-    if (displayTargetCalories) {
-
-        displayTargetCalories.textContent =
-            formatNumber(target.calories);
-
-    }
-
-    if (displayTargetProtein) {
-
-        displayTargetProtein.textContent =
-            formatNumber(target.protein);
-
-    }
-
-    if (displayTargetCarbs) {
-
-        displayTargetCarbs.textContent =
-            formatNumber(target.carbs);
-
-    }
-
-    if (displayTargetFat) {
-
-        displayTargetFat.textContent =
-            formatNumber(target.fat);
 
     }
 
 }
 
 
-/* =====================================================
+/* =========================================================
    TARGET SAVE
-===================================================== */
+========================================================= */
 
 if (saveTarget) {
 
@@ -963,10 +966,12 @@ if (saveTarget) {
 
 
             target = {
+
                 calories,
                 protein,
                 carbs,
                 fat
+
             };
 
 
@@ -988,26 +993,802 @@ if (saveTarget) {
 }
 
 
-/* =====================================================
-   FIND FOOD
-===================================================== */
+/* =========================================================
+   LOCAL SEARCH
+========================================================= */
 
-function findFood(foodId) {
+function searchLocalFoods(query) {
 
-    return foodDatabase.find(
-        food => food.id === foodId
+    const normalized =
+        query
+            .toLowerCase()
+            .trim();
+
+    if (!normalized) {
+
+        return [];
+
+    }
+
+
+    return foodDatabase
+        .filter(food => {
+
+            return food.name
+                .toLowerCase()
+                .includes(normalized);
+
+        })
+        .map(food => ({
+
+            id: food.id,
+
+            name: food.name,
+
+            brand: "",
+
+            category:
+                food.category,
+
+            kcalPer100g:
+                food.calories,
+
+            proteinPer100g:
+                food.protein,
+
+            carbsPer100g:
+                food.carbs,
+
+            fatPer100g:
+                food.fat,
+
+            source:
+                "Database Lokal Dr. Reza"
+
+        }));
+
+}
+
+
+/* =========================================================
+   SEARCH ONLINE
+========================================================= */
+
+let searchTimer = null;
+
+let currentSearchController = null;
+
+let selectedFoodData = null;
+
+
+if (foodSearch) {
+
+    foodSearch.addEventListener(
+        "input",
+        () => {
+
+            const query =
+                foodSearch.value.trim();
+
+
+            clearTimeout(
+                searchTimer
+            );
+
+
+            if (
+                query.length < 2
+            ) {
+
+                clearSearchResults();
+
+                return;
+
+            }
+
+
+            searchTimer =
+                setTimeout(
+                    () => {
+
+                        performFoodSearch(
+                            query
+                        );
+
+                    },
+                    450
+                );
+
+        }
     );
 
 }
 
 
-/* =====================================================
+/* =========================================================
+   PERFORM FOOD SEARCH
+========================================================= */
+
+async function performFoodSearch(
+    query
+) {
+
+    if (!foodSearchResults) {
+
+        return;
+
+    }
+
+
+    if (currentSearchController) {
+
+        currentSearchController.abort();
+
+    }
+
+
+    currentSearchController =
+        new AbortController();
+
+
+    foodSearchStatus.textContent =
+        "🔎 Mencari makanan...";
+
+
+    foodSearchResults.innerHTML =
+        "";
+
+
+    try {
+
+        const url =
+            `${FOOD_API_URL}?q=${encodeURIComponent(query)}`;
+
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method: "GET",
+                    signal:
+                        currentSearchController.signal
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Server tidak merespons."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Pencarian gagal."
+            );
+
+        }
+
+
+        const onlineFoods =
+            Array.isArray(data.foods)
+                ? data.foods
+                : [];
+
+
+        const localFoods =
+            searchLocalFoods(query);
+
+
+        const combined =
+            mergeFoodResults(
+                localFoods,
+                onlineFoods
+            );
+
+
+        renderSearchResults(
+            combined,
+            query
+        );
+
+
+    } catch (error) {
+
+        if (
+            error.name ===
+            "AbortError"
+        ) {
+
+            return;
+
+        }
+
+
+        console.error(
+            "Food search error:",
+            error
+        );
+
+
+        foodSearchStatus.textContent =
+            "⚠️ Pencarian online gagal. Mencoba database lokal...";
+
+
+        const localFoods =
+            searchLocalFoods(query);
+
+
+        renderSearchResults(
+            localFoods,
+            query
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   MERGE RESULTS
+========================================================= */
+
+function mergeFoodResults(
+    localFoods,
+    onlineFoods
+) {
+
+    const result = [];
+
+    const seen = new Set();
+
+
+    /*
+     * Local foods first
+     */
+
+    localFoods.forEach(food => {
+
+        const key =
+            normalizeFoodName(
+                food.name
+            );
+
+
+        if (!seen.has(key)) {
+
+            seen.add(key);
+
+            result.push(food);
+
+        }
+
+    });
+
+
+    /*
+     * Online foods
+     */
+
+    onlineFoods.forEach(food => {
+
+        if (
+            !food ||
+            !food.name
+        ) {
+
+            return;
+
+        }
+
+
+        const key =
+            normalizeFoodName(
+                food.name
+            );
+
+
+        if (!seen.has(key)) {
+
+            seen.add(key);
+
+            result.push(food);
+
+        }
+
+    });
+
+
+    return result.slice(
+        0,
+        12
+    );
+
+}
+
+
+/* =========================================================
+   NORMALIZE FOOD NAME
+========================================================= */
+
+function normalizeFoodName(
+    name
+) {
+
+    return String(name)
+        .toLowerCase()
+        .replace(
+            /[^a-z0-9\s]/g,
+            ""
+        )
+        .replace(
+            /\s+/g,
+            " "
+        )
+        .trim();
+
+}
+
+
+/* =========================================================
+   RENDER SEARCH RESULTS
+========================================================= */
+
+function renderSearchResults(
+    results,
+    query
+) {
+
+    if (!foodSearchResults) {
+
+        return;
+
+    }
+
+
+    foodSearchResults.innerHTML =
+        "";
+
+
+    if (!results.length) {
+
+        foodSearchStatus.textContent =
+            `Tidak ditemukan makanan untuk "${query}".`;
+
+        return;
+
+    }
+
+
+    foodSearchStatus.textContent =
+        `${results.length} hasil ditemukan`;
+
+
+    results.forEach(
+        (food, index) => {
+
+            const card =
+                document.createElement(
+                    "button"
+                );
+
+
+            card.type =
+                "button";
+
+
+            card.className =
+                "food-result-card";
+
+
+            card.dataset.index =
+                index;
+
+
+            const kcal =
+                Number(
+                    food.kcalPer100g
+                ) || 0;
+
+
+            const protein =
+                Number(
+                    food.proteinPer100g
+                ) || 0;
+
+
+            const carbs =
+                Number(
+                    food.carbsPer100g
+                ) || 0;
+
+
+            const fat =
+                Number(
+                    food.fatPer100g
+                ) || 0;
+
+
+            card.innerHTML = `
+
+                <div class="food-result-main">
+
+                    <div class="food-result-icon">
+                        🍽️
+                    </div>
+
+                    <div class="food-result-info">
+
+                        <strong>
+                            ${escapeHTML(food.name)}
+                        </strong>
+
+                        ${
+                            food.brand
+                                ? `
+                                <small>
+                                    ${escapeHTML(food.brand)}
+                                </small>
+                                `
+                                : ""
+                        }
+
+                        <span>
+                            ${
+                                food.category
+                                    ? escapeHTML(
+                                        food.category
+                                    )
+                                    : "Makanan"
+                            }
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="food-result-nutrition">
+
+                    <span>
+                        🔥
+                        <b>
+                            ${formatNumber(kcal)}
+                        </b>
+                        kcal
+                    </span>
+
+                    <span>
+                        P
+                        ${formatNumber(protein)}
+                        g
+                    </span>
+
+                    <span>
+                        K
+                        ${formatNumber(carbs)}
+                        g
+                    </span>
+
+                    <span>
+                        L
+                        ${formatNumber(fat)}
+                        g
+                    </span>
+
+                </div>
+
+
+                <div class="food-result-footer">
+
+                    <small>
+                        per 100 g
+                    </small>
+
+                    <small>
+                        ${escapeHTML(
+                            food.source ||
+                            "Database makanan"
+                        )}
+                    </small>
+
+                </div>
+
+            `;
+
+
+            card.addEventListener(
+                "click",
+                () => {
+
+                    selectFood(
+                        food
+                    );
+
+                }
+            );
+
+
+            foodSearchResults.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SELECT FOOD
+========================================================= */
+
+function selectFood(
+    food
+) {
+
+    selectedFoodData = {
+
+        id:
+            food.id,
+
+        name:
+            food.name,
+
+        brand:
+            food.brand || "",
+
+        category:
+            food.category || "",
+
+        kcalPer100g:
+            Number(
+                food.kcalPer100g
+            ) || 0,
+
+        proteinPer100g:
+            Number(
+                food.proteinPer100g
+            ) || 0,
+
+        carbsPer100g:
+            Number(
+                food.carbsPer100g
+            ) || 0,
+
+        fatPer100g:
+            Number(
+                food.fatPer100g
+            ) || 0,
+
+        source:
+            food.source ||
+            "Database makanan"
+
+    };
+
+
+    /*
+     * Fill hidden compatibility fields
+     */
+
+    if (foodName) {
+
+        foodName.value =
+            selectedFoodData.name;
+
+    }
+
+
+    if (foodCalories) {
+
+        foodCalories.value =
+            selectedFoodData.kcalPer100g;
+
+    }
+
+
+    if (foodProtein) {
+
+        foodProtein.value =
+            selectedFoodData.proteinPer100g;
+
+    }
+
+
+    if (foodCarbs) {
+
+        foodCarbs.value =
+            selectedFoodData.carbsPer100g;
+
+    }
+
+
+    if (foodFat) {
+
+        foodFat.value =
+            selectedFoodData.fatPer100g;
+
+    }
+
+
+    /*
+     * Display selected food
+     */
+
+    if (selectedFood) {
+
+        selectedFood.hidden =
+            false;
+
+    }
+
+
+    if (selectedFoodName) {
+
+        selectedFoodName.textContent =
+            selectedFoodData.name;
+
+    }
+
+
+    if (selectedFoodSource) {
+
+        selectedFoodSource.textContent =
+            `${selectedFoodData.kcalPer100g} kcal / 100 g • ${selectedFoodData.source}`;
+
+    }
+
+
+    if (foodSearch) {
+
+        foodSearch.value =
+            selectedFoodData.name;
+
+    }
+
+
+    if (foodSearchResults) {
+
+        foodSearchResults.innerHTML =
+            "";
+
+    }
+
+
+    if (foodSearchStatus) {
+
+        foodSearchStatus.textContent =
+            "✓ Makanan dipilih";
+
+    }
+
+
+    updateAutomaticNutrition();
+
+}
+
+
+/* =========================================================
+   CHANGE FOOD
+========================================================= */
+
+if (changeFood) {
+
+    changeFood.addEventListener(
+        "click",
+        () => {
+
+            selectedFoodData =
+                null;
+
+
+            if (selectedFood) {
+
+                selectedFood.hidden =
+                    true;
+
+            }
+
+
+            if (foodSearch) {
+
+                foodSearch.value =
+                    "";
+
+                foodSearch.focus();
+
+            }
+
+
+            clearNutritionPreview();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CLEAR SEARCH
+========================================================= */
+
+if (clearFoodSearch) {
+
+    clearFoodSearch.addEventListener(
+        "click",
+        () => {
+
+            if (foodSearch) {
+
+                foodSearch.value =
+                    "";
+
+                foodSearch.focus();
+
+            }
+
+
+            selectedFoodData =
+                null;
+
+
+            if (selectedFood) {
+
+                selectedFood.hidden =
+                    true;
+
+            }
+
+
+            clearSearchResults();
+
+            clearNutritionPreview();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CLEAR SEARCH RESULTS
+========================================================= */
+
+function clearSearchResults() {
+
+    if (foodSearchResults) {
+
+        foodSearchResults.innerHTML =
+            "";
+
+    }
+
+
+    if (foodSearchStatus) {
+
+        foodSearchStatus.textContent =
+            "";
+
+    }
+
+}
+
+
+/* =========================================================
    CALCULATE NUTRITION
-   
-   Formula:
-   
-   nutrient = value per 100g × weight / 100
-===================================================== */
+========================================================= */
 
 function calculateNutrition(
     food,
@@ -1021,120 +1802,66 @@ function calculateNutrition(
     return {
 
         calories:
-            food.calories *
-            multiplier,
+            Number(
+                food.kcalPer100g ??
+                food.calories ??
+                0
+            ) * multiplier,
 
         protein:
-            food.protein *
-            multiplier,
+            Number(
+                food.proteinPer100g ??
+                food.protein ??
+                0
+            ) * multiplier,
 
         carbs:
-            food.carbs *
-            multiplier,
+            Number(
+                food.carbsPer100g ??
+                food.carbs ??
+                0
+            ) * multiplier,
 
         fat:
-            food.fat *
-            multiplier
+            Number(
+                food.fatPer100g ??
+                food.fat ??
+                0
+            ) * multiplier
 
     };
 
 }
 
 
-/* =====================================================
-   CREATE FOOD SELECT
-   
-   This function creates a food selector when the
-   current HTML contains a container with ID:
-   
-   foodDatabaseSelector
-   
-   We keep compatibility with the old HTML.
-===================================================== */
-
-function initializeFoodSelector() {
-
-    const selector =
-        document.getElementById(
-            "foodDatabaseSelector"
-        );
-
-
-    if (!selector) {
-        return;
-    }
-
-
-    selector.innerHTML = "";
-
-
-    foodDatabase.forEach(food => {
-
-        const option =
-            document.createElement(
-                "option"
-            );
-
-        option.value =
-            food.id;
-
-        option.textContent =
-            `${food.name} — ${food.category}`;
-
-        selector.appendChild(
-            option
-        );
-
-    });
-
-
-    selector.addEventListener(
-        "change",
-        updateAutomaticNutrition
-    );
-
-}
-
-
-/* =====================================================
-   AUTOMATIC NUTRITION PREVIEW
-===================================================== */
+/* =========================================================
+   AUTOMATIC PREVIEW
+========================================================= */
 
 function updateAutomaticNutrition() {
 
-    const selector =
-        document.getElementById(
-            "foodDatabaseSelector"
-        );
-
-    const amount =
-        document.getElementById(
-            "foodAmount"
-        );
-
-
     if (
-        !selector ||
-        !amount
+        !selectedFoodData ||
+        !foodAmount
     ) {
+
         return;
+
     }
 
 
-    const food =
-        findFood(
-            selector.value
-        );
-
     const weight =
-        Number(amount.value);
+        Number(
+            foodAmount.value
+        );
 
 
     if (
-        !food ||
         !weight ||
         weight <= 0
     ) {
+
+        clearNutritionPreview();
 
         return;
 
@@ -1143,7 +1870,7 @@ function updateAutomaticNutrition() {
 
     const nutrition =
         calculateNutrition(
-            food,
+            selectedFoodData,
             weight
         );
 
@@ -1152,37 +1879,66 @@ function updateAutomaticNutrition() {
         nutrition
     );
 
+
+    /*
+     * Update hidden fields
+     */
+
+    if (foodCalories) {
+
+        foodCalories.value =
+            nutrition.calories;
+
+    }
+
+
+    if (foodProtein) {
+
+        foodProtein.value =
+            nutrition.protein;
+
+    }
+
+
+    if (foodCarbs) {
+
+        foodCarbs.value =
+            nutrition.carbs;
+
+    }
+
+
+    if (foodFat) {
+
+        foodFat.value =
+            nutrition.fat;
+
+    }
+
 }
 
 
-/* =====================================================
+/* =========================================================
+   WEIGHT INPUT
+========================================================= */
+
+if (foodAmount) {
+
+    foodAmount.addEventListener(
+        "input",
+        updateAutomaticNutrition
+    );
+
+}
+
+
+/* =========================================================
    NUTRITION PREVIEW
-===================================================== */
+========================================================= */
 
 function updateNutritionPreview(
     nutrition
 ) {
-
-    const previewCalories =
-        document.getElementById(
-            "previewCalories"
-        );
-
-    const previewProtein =
-        document.getElementById(
-            "previewProtein"
-        );
-
-    const previewCarbs =
-        document.getElementById(
-            "previewCarbs"
-        );
-
-    const previewFat =
-        document.getElementById(
-            "previewFat"
-        );
-
 
     if (previewCalories) {
 
@@ -1226,36 +1982,46 @@ function updateNutritionPreview(
 }
 
 
-/* =====================================================
-   INPUT EVENT FOR WEIGHT
-===================================================== */
+/* =========================================================
+   CLEAR PREVIEW
+========================================================= */
 
-const foodAmountInput =
-    document.getElementById(
-        "foodAmount"
-    );
+function clearNutritionPreview() {
 
+    if (previewCalories) {
 
-if (foodAmountInput) {
+        previewCalories.textContent =
+            "0 kcal";
 
-    foodAmountInput.addEventListener(
-        "input",
-        updateAutomaticNutrition
-    );
+    }
+
+    if (previewProtein) {
+
+        previewProtein.textContent =
+            "0 g";
+
+    }
+
+    if (previewCarbs) {
+
+        previewCarbs.textContent =
+            "0 g";
+
+    }
+
+    if (previewFat) {
+
+        previewFat.textContent =
+            "0 g";
+
+    }
 
 }
 
 
-/* =====================================================
+/* =========================================================
    ADD FOOD
-   
-   VERSION 2:
-   Automatically calculates nutrition
-   from database + weight.
-   
-   It also supports old manual fields
-   as fallback.
-===================================================== */
+========================================================= */
 
 if (foodForm) {
 
@@ -1271,36 +2037,22 @@ if (foodForm) {
                     "mealType"
                 );
 
-            const nameElement =
-                document.getElementById(
-                    "foodName"
-                );
 
             const amountElement =
                 document.getElementById(
                     "foodAmount"
                 );
 
+
             const unitElement =
                 document.getElementById(
                     "foodUnit"
-                );
-
-            const databaseSelector =
-                document.getElementById(
-                    "foodDatabaseSelector"
                 );
 
 
             const meal =
                 mealElement
                     ? mealElement.value
-                    : "";
-
-
-            const manualName =
-                nameElement
-                    ? nameElement.value.trim()
                     : "";
 
 
@@ -1318,137 +2070,58 @@ if (foodForm) {
                     : "gram";
 
 
-            let foodName =
-                manualName;
-
-
-            let nutrition = null;
-
-
             /*
-             * DATABASE MODE
+             * Selected online/local food
              */
 
             if (
-                databaseSelector &&
-                amount > 0 &&
-                unit === "gram"
-            ) {
-
-                const selectedFood =
-                    findFood(
-                        databaseSelector.value
-                    );
-
-
-                if (selectedFood) {
-
-                    foodName =
-                        selectedFood.name;
-
-                    nutrition =
-                        calculateNutrition(
-                            selectedFood,
-                            amount
-                        );
-
-                }
-
-            }
-
-
-            /*
-             * FALLBACK MODE
-             *
-             * Allows the old HTML to continue
-             * functioning until the new UI is installed.
-             */
-
-            if (!nutrition) {
-
-                const caloriesElement =
-                    document.getElementById(
-                        "foodCalories"
-                    );
-
-                const proteinElement =
-                    document.getElementById(
-                        "foodProtein"
-                    );
-
-                const carbsElement =
-                    document.getElementById(
-                        "foodCarbs"
-                    );
-
-                const fatElement =
-                    document.getElementById(
-                        "foodFat"
-                    );
-
-
-                const calories =
-                    caloriesElement
-                        ? Number(
-                            caloriesElement.value
-                        )
-                        : 0;
-
-
-                const protein =
-                    proteinElement
-                        ? Number(
-                            proteinElement.value
-                        )
-                        : 0;
-
-
-                const carbs =
-                    carbsElement
-                        ? Number(
-                            carbsElement.value
-                        )
-                        : 0;
-
-
-                const fat =
-                    fatElement
-                        ? Number(
-                            fatElement.value
-                        )
-                        : 0;
-
-
-                nutrition = {
-
-                    calories,
-                    protein,
-                    carbs,
-                    fat
-
-                };
-
-            }
-
-
-            /*
-             * VALIDATION
-             */
-
-            if (
-                !meal ||
-                !foodName ||
-                amount <= 0
+                !selectedFoodData
             ) {
 
                 showNotification(
-                    "Lengkapi waktu makan, makanan, dan berat.",
+                    "Silakan cari dan pilih makanan terlebih dahulu.",
                     "error"
                 );
 
                 return;
 
             }
+
+
+            if (
+                !meal
+            ) {
+
+                showNotification(
+                    "Pilih waktu makan terlebih dahulu.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !amount ||
+                amount <= 0
+            ) {
+
+                showNotification(
+                    "Masukkan berat makanan.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            const nutrition =
+                calculateNutrition(
+                    selectedFoodData,
+                    amount
+                );
 
 
             if (
@@ -1459,7 +2132,7 @@ if (foodForm) {
             ) {
 
                 showNotification(
-                    "Nutrisi makanan belum tersedia.",
+                    "Data nutrisi makanan tidak tersedia.",
                     "error"
                 );
 
@@ -1467,10 +2140,6 @@ if (foodForm) {
 
             }
 
-
-            /*
-             * CREATE FOOD
-             */
 
             const food = {
 
@@ -1480,7 +2149,7 @@ if (foodForm) {
                 meal,
 
                 name:
-                    foodName,
+                    selectedFoodData.name,
 
                 amount,
 
@@ -1498,13 +2167,19 @@ if (foodForm) {
                 fat:
                     nutrition.fat,
 
+                source:
+                    selectedFoodData.source,
+
                 createdAt:
                     new Date().toISOString()
 
             };
 
 
-            foods.push(food);
+            foods.push(
+                food
+            );
+
 
             saveFoods();
 
@@ -1513,16 +2188,60 @@ if (foodForm) {
             updateSummary();
 
 
+            /*
+             * Reset form
+             */
+
             foodForm.reset();
 
 
-            updateAutomaticNutrition();
+            selectedFoodData =
+                null;
+
+
+            if (selectedFood) {
+
+                selectedFood.hidden =
+                    true;
+
+            }
+
+
+            if (foodSearch) {
+
+                foodSearch.value =
+                    "";
+
+            }
+
+
+            clearSearchResults();
+
+            clearNutritionPreview();
 
 
             showNotification(
-                `${foodName} berhasil ditambahkan.`,
+                `${food.name} ${formatNumber(amount)} g berhasil ditambahkan.`,
                 "success"
             );
+
+
+            /*
+             * Scroll to history
+             */
+
+            setTimeout(() => {
+
+                if (foodList) {
+
+                    foodList.scrollIntoView({
+                        behavior: "smooth",
+                        block: "nearest"
+                    });
+
+                }
+
+            }, 150);
 
         }
     );
@@ -1530,21 +2249,26 @@ if (foodForm) {
 }
 
 
-/* =====================================================
+/* =========================================================
    RENDER FOOD LIST
-===================================================== */
+========================================================= */
 
 function renderFoods() {
 
     if (!foodList) {
+
         return;
+
     }
 
 
-    foodList.innerHTML = "";
+    foodList.innerHTML =
+        "";
 
 
-    if (foods.length === 0) {
+    if (
+        foods.length === 0
+    ) {
 
         if (emptyState) {
 
@@ -1605,119 +2329,141 @@ function renderFoods() {
             (a, b) => {
 
                 const mealA =
-                    mealOrder[a.meal] || 99;
+                    mealOrder[a.meal] ||
+                    99;
 
                 const mealB =
-                    mealOrder[b.meal] || 99;
+                    mealOrder[b.meal] ||
+                    99;
 
 
                 if (
                     mealA !== mealB
                 ) {
 
-                    return mealA - mealB;
+                    return (
+                        mealA -
+                        mealB
+                    );
 
                 }
 
 
                 return (
-                    new Date(a.createdAt) -
-                    new Date(b.createdAt)
+                    new Date(
+                        a.createdAt
+                    ) -
+                    new Date(
+                        b.createdAt
+                    )
                 );
 
             }
         );
 
 
-    sortedFoods.forEach(food => {
+    sortedFoods.forEach(
+        food => {
 
-        const item =
-            document.createElement(
-                "article"
+            const item =
+                document.createElement(
+                    "article"
+                );
+
+
+            item.className =
+                "food-item";
+
+
+            item.innerHTML = `
+
+                <div class="food-item-main">
+
+                    <span class="food-item-meal">
+                        ${escapeHTML(food.meal)}
+                    </span>
+
+                    <h3 class="food-item-name">
+                        ${escapeHTML(food.name)}
+                    </h3>
+
+                    <div class="food-item-portion">
+                        ${formatNumber(food.amount)}
+                        ${escapeHTML(food.unit)}
+                    </div>
+
+                    <div class="food-item-nutrition">
+
+                        <span class="nutrition-value">
+                            🔥
+                            <strong>
+                                ${formatNumber(food.calories)}
+                            </strong>
+                            kcal
+                        </span>
+
+                        <span class="nutrition-value">
+                            🍗
+                            <strong>
+                                ${formatNumber(food.protein)}
+                            </strong>
+                            g protein
+                        </span>
+
+                        <span class="nutrition-value">
+                            🍚
+                            <strong>
+                                ${formatNumber(food.carbs)}
+                            </strong>
+                            g karbo
+                        </span>
+
+                        <span class="nutrition-value">
+                            🥑
+                            <strong>
+                                ${formatNumber(food.fat)}
+                            </strong>
+                            g lemak
+                        </span>
+
+                    </div>
+
+                    ${
+                        food.source
+                            ? `
+                            <small class="food-source">
+                                ${escapeHTML(food.source)}
+                            </small>
+                            `
+                            : ""
+                    }
+
+                </div>
+
+
+                <div class="food-item-actions">
+
+                    <button
+                        type="button"
+                        class="delete-food"
+                        data-id="${food.id}"
+                        aria-label="Hapus ${escapeHTML(food.name)}"
+                        title="Hapus makanan"
+                    >
+                        🗑️
+                    </button>
+
+                </div>
+
+            `;
+
+
+            foodList.appendChild(
+                item
             );
 
-
-        item.className =
-            "food-item";
-
-
-        item.innerHTML = `
-
-            <div class="food-item-main">
-
-                <span class="food-item-meal">
-                    ${escapeHTML(food.meal)}
-                </span>
-
-                <h3 class="food-item-name">
-                    ${escapeHTML(food.name)}
-                </h3>
-
-                <div class="food-item-portion">
-                    ${formatNumber(food.amount)}
-                    ${escapeHTML(food.unit)}
-                </div>
-
-                <div class="food-item-nutrition">
-
-                    <span class="nutrition-value">
-                        🔥
-                        <strong>
-                            ${formatNumber(food.calories)}
-                        </strong>
-                        kcal
-                    </span>
-
-                    <span class="nutrition-value">
-                        🍗
-                        <strong>
-                            ${formatNumber(food.protein)}
-                        </strong>
-                        g protein
-                    </span>
-
-                    <span class="nutrition-value">
-                        🍚
-                        <strong>
-                            ${formatNumber(food.carbs)}
-                        </strong>
-                        g karbo
-                    </span>
-
-                    <span class="nutrition-value">
-                        🥑
-                        <strong>
-                            ${formatNumber(food.fat)}
-                        </strong>
-                        g lemak
-                    </span>
-
-                </div>
-
-            </div>
-
-            <div class="food-item-actions">
-
-                <button
-                    type="button"
-                    class="delete-food"
-                    data-id="${food.id}"
-                    aria-label="Hapus ${escapeHTML(food.name)}"
-                    title="Hapus makanan"
-                >
-                    🗑️
-                </button>
-
-            </div>
-
-        `;
-
-
-        foodList.appendChild(
-            item
-        );
-
-    });
+        }
+    );
 
 
     attachDeleteEvents();
@@ -1725,108 +2471,121 @@ function renderFoods() {
 }
 
 
-/* =====================================================
+/* =========================================================
    DELETE FOOD
-===================================================== */
+========================================================= */
 
 function attachDeleteEvents() {
 
     document
-        .querySelectorAll(".delete-food")
-        .forEach(button => {
+        .querySelectorAll(
+            ".delete-food"
+        )
+        .forEach(
+            button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    const id =
-                        button.dataset.id;
+                        const id =
+                            button.dataset.id;
 
 
-                    const food =
-                        foods.find(
-                            item =>
-                                item.id === id
+                        const food =
+                            foods.find(
+                                item =>
+                                    item.id === id
+                            );
+
+
+                        if (!food) {
+
+                            return;
+
+                        }
+
+
+                        if (
+                            !confirm(
+                                `Hapus "${food.name}" dari catatan hari ini?`
+                            )
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        foods =
+                            foods.filter(
+                                item =>
+                                    item.id !== id
+                            );
+
+
+                        saveFoods();
+
+                        renderFoods();
+
+                        updateSummary();
+
+
+                        showNotification(
+                            "Makanan berhasil dihapus.",
+                            "success"
                         );
 
-
-                    if (!food) {
-                        return;
                     }
+                );
 
-
-                    if (
-                        !confirm(
-                            `Hapus "${food.name}" dari catatan hari ini?`
-                        )
-                    ) {
-
-                        return;
-
-                    }
-
-
-                    foods =
-                        foods.filter(
-                            item =>
-                                item.id !== id
-                        );
-
-
-                    saveFoods();
-
-                    renderFoods();
-
-                    updateSummary();
-
-
-                    showNotification(
-                        "Makanan berhasil dihapus.",
-                        "success"
-                    );
-
-                }
-            );
-
-        });
+            }
+        );
 
 }
 
 
-/* =====================================================
+/* =========================================================
    SUMMARY
-===================================================== */
+========================================================= */
 
 function updateSummary() {
 
     const totals = {
 
         calories: 0,
-
         protein: 0,
-
         carbs: 0,
-
         fat: 0
 
     };
 
 
-    foods.forEach(food => {
+    foods.forEach(
+        food => {
 
-        totals.calories +=
-            Number(food.calories) || 0;
+            totals.calories +=
+                Number(
+                    food.calories
+                ) || 0;
 
-        totals.protein +=
-            Number(food.protein) || 0;
+            totals.protein +=
+                Number(
+                    food.protein
+                ) || 0;
 
-        totals.carbs +=
-            Number(food.carbs) || 0;
+            totals.carbs +=
+                Number(
+                    food.carbs
+                ) || 0;
 
-        totals.fat +=
-            Number(food.fat) || 0;
+            totals.fat +=
+                Number(
+                    food.fat
+                ) || 0;
 
-    });
+        }
+    );
 
 
     if (totalCalories) {
@@ -1868,10 +2627,6 @@ function updateSummary() {
 
     }
 
-
-    /* =========================
-       REMAINING
-    ========================= */
 
     const remainCalories =
         Math.max(
@@ -1945,10 +2700,6 @@ function updateSummary() {
     }
 
 
-    /* =========================
-       PROGRESS
-    ========================= */
-
     updateProgress(
         calorieProgress,
         caloriePercentage,
@@ -1983,9 +2734,9 @@ function updateSummary() {
 }
 
 
-/* =====================================================
+/* =========================================================
    PROGRESS
-===================================================== */
+========================================================= */
 
 function updateProgress(
     progressElement,
@@ -1995,7 +2746,9 @@ function updateProgress(
 ) {
 
     if (!progressElement) {
+
         return;
+
     }
 
 
@@ -2006,6 +2759,7 @@ function updateProgress(
 
         progressElement.style.width =
             "0%";
+
 
         if (percentageElement) {
 
@@ -2051,9 +2805,9 @@ function updateProgress(
 }
 
 
-/* =====================================================
+/* =========================================================
    RESET DAY
-===================================================== */
+========================================================= */
 
 if (resetDay) {
 
@@ -2061,7 +2815,9 @@ if (resetDay) {
         "click",
         () => {
 
-            if (foods.length === 0) {
+            if (
+                foods.length === 0
+            ) {
 
                 showNotification(
                     "Belum ada makanan yang dicatat.",
@@ -2086,6 +2842,7 @@ if (resetDay) {
 
             foods = [];
 
+
             saveFoods();
 
             renderFoods();
@@ -2104,9 +2861,9 @@ if (resetDay) {
 }
 
 
-/* =====================================================
+/* =========================================================
    NOTIFICATION
-===================================================== */
+========================================================= */
 
 function showNotification(
     message,
@@ -2120,7 +2877,9 @@ function showNotification(
 
 
     if (old) {
+
         old.remove();
+
     }
 
 
@@ -2156,38 +2915,48 @@ function showNotification(
     );
 
 
-    requestAnimationFrame(() => {
+    requestAnimationFrame(
+        () => {
 
-        notification.classList.add(
-            "show"
-        );
+            notification.classList.add(
+                "show"
+            );
 
-    });
-
-
-    setTimeout(() => {
-
-        notification.classList.remove(
-            "show"
-        );
+        }
+    );
 
 
-        setTimeout(() => {
+    setTimeout(
+        () => {
 
-            notification.remove();
+            notification.classList.remove(
+                "show"
+            );
 
-        }, 300);
 
-    }, 2800);
+            setTimeout(
+                () => {
+
+                    notification.remove();
+
+                },
+                300
+            );
+
+        },
+        2800
+    );
 
 }
 
 
-/* =====================================================
+/* =========================================================
    ESCAPE HTML
-===================================================== */
+========================================================= */
 
-function escapeHTML(value) {
+function escapeHTML(
+    value
+) {
 
     return String(value)
         .replace(
@@ -2214,11 +2983,9 @@ function escapeHTML(value) {
 }
 
 
-/* =====================================================
+/* =========================================================
    INITIALIZE
-===================================================== */
-
-initializeFoodSelector();
+========================================================= */
 
 updateTargetDisplay();
 
@@ -2226,12 +2993,12 @@ renderFoods();
 
 updateSummary();
 
+clearNutritionPreview();
 
-/* =====================================================
+
+/* =========================================================
    PUBLIC DEBUG ACCESS
-   
-   Helpful during development.
-===================================================== */
+========================================================= */
 
 window.drRezaFoodLogger = {
 
@@ -2244,11 +3011,18 @@ window.drRezaFoodLogger = {
     getTarget:
         () => target,
 
+    getSelectedFood:
+        () => selectedFoodData,
+
     calculateNutrition,
 
-    findFood
+    searchLocalFoods,
+
+    searchOnline:
+        performFoodSearch
 
 };
- 
+
 
 });
+```
