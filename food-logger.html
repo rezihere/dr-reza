@@ -642,29 +642,96 @@
 
                 <!-- FOOD DATABASE -->
 
-                <div class="form-group">
+               <div class="form-group">
 
-                    <label for="foodDatabaseSelector">
-                        Pilih Makanan
-                    </label>
+    <label for="foodSearch">
+        Cari Makanan
+    </label>
 
-                    <select
-                        id="foodDatabaseSelector"
-                        required
-                    >
+    <div class="food-search-wrapper">
 
-                        <option value="">
-                            Memuat database makanan...
-                        </option>
+        <div class="food-search-input">
 
-                    </select>
+            <span class="search-icon">
+                🔎
+            </span>
 
-                    <small class="form-help">
-                        Nilai nutrisi dihitung berdasarkan
-                        100 gram makanan.
-                    </small>
+            <input
+                type="text"
+                id="foodSearch"
+                placeholder="Contoh: nasi goreng, ayam goreng, tempe..."
+                autocomplete="off"
+            >
 
-                </div>
+            <button
+                type="button"
+                id="clearFoodSearch"
+                class="clear-search"
+                aria-label="Hapus pencarian"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div
+            id="foodSearchStatus"
+            class="food-search-status"
+        >
+        </div>
+
+        <div
+            id="foodSearchResults"
+            class="food-search-results"
+        >
+        </div>
+
+    </div>
+
+
+    <small class="form-help">
+
+        🔎 Cari berbagai jenis makanan.
+        Data nutrisi diambil dari database makanan online.
+
+    </small>
+
+
+    <!-- Selected food -->
+
+    <div
+        id="selectedFood"
+        class="selected-food"
+        hidden
+    >
+
+        <div class="selected-food-icon">
+            🍽️
+        </div>
+
+        <div class="selected-food-info">
+
+            <strong id="selectedFoodName">
+                -
+            </strong>
+
+            <span id="selectedFoodSource">
+                -
+            </span>
+
+        </div>
+
+        <button
+            type="button"
+            id="changeFood"
+            class="change-food-button"
+        >
+            Ganti
+        </button>
+
+    </div>
+
+</div>
 
 
 
