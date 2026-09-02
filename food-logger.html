@@ -1,144 +1,142 @@
+```html
 <!DOCTYPE html>
-
 <html lang="id">
 
 <head>
+    <meta charset="UTF-8">
 
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<meta charset="UTF-8">
+    <meta
+        name="description"
+        content="Food Logger dr. Reza untuk mencatat makanan dan menghitung kalori serta makronutrien."
+    >
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+    <meta
+        name="author"
+        content="dr. Reza"
+    >
 
-<meta
-    name="description"
-    content="Food Logger Dr. Reza untuk mencatat makanan, menghitung kalori dan makronutrisi secara otomatis."
->
+    <title>Food Logger - dr. Reza</title>
 
-<meta
-    name="theme-color"
-    content="#0f766e"
->
-
-<title>Food Logger - Dr. Reza Health & Nutrition</title>
-
-<link
-    rel="stylesheet"
-    href="css/food-logger.css"
->
-```
-
+    <link
+        rel="stylesheet"
+        href="food-logger.css"
+    >
 </head>
 
 <body>
 
-<!-- ==================================================
+<!-- =====================================================
      NAVBAR
-================================================== -->
+===================================================== -->
 
 <header class="site-header">
 
-```
-<div class="container navbar">
-
-    <a
-        href="index.html"
-        class="brand"
-    >
-
-        <div class="brand-name">
-            dr. Reza
-        </div>
-
-        <div class="brand-subtitle">
-            General Practitioner
-        </div>
-
-    </a>
-
-
-    <button
-        class="menu-toggle"
-        id="menuToggle"
-        type="button"
-        aria-label="Buka menu"
-        aria-expanded="false"
-    >
-        ☰
-    </button>
-
-
-    <nav
-        class="nav-menu"
-        id="navMenu"
-    >
+    <nav class="navbar">
 
         <a
             href="index.html"
-            class="nav-link"
+            class="brand"
+            aria-label="dr. Reza"
         >
-            Home
+
+            <div class="brand-name">
+                dr. Reza
+            </div>
+
+            <div class="brand-title">
+                Dokter Umum
+            </div>
+
         </a>
 
-        <a
-            href="kalkulator.html"
-            class="nav-link"
-        >
-            Kalkulator
-        </a>
 
-        <a
-            href="food-logger.html"
-            class="nav-link active"
+        <button
+            type="button"
+            id="menuToggle"
+            class="menu-toggle"
+            aria-label="Buka menu"
+            aria-expanded="false"
+            aria-controls="navMenu"
         >
-            Food Logger
-        </a>
+            ☰
+        </button>
 
-        <a
-            href="berita.html"
-            class="nav-link"
-        >
-            Berita
-        </a>
 
-        <a
-            href="edukasi.html"
-            class="nav-link"
+        <div
+            id="navMenu"
+            class="nav-menu"
         >
-            Edukasi
-        </a>
 
-        <a
-            href="contact.html"
-            class="nav-link"
-        >
-            Contact
-        </a>
+            <a
+                href="index.html"
+                class="nav-link"
+            >
+                Beranda
+            </a>
+
+            <a
+                href="kalkulator.html"
+                class="nav-link"
+            >
+                Kalkulator
+            </a>
+
+            <a
+                href="food-logger.html"
+                class="nav-link active"
+            >
+                Food Logger
+            </a>
+
+            <a
+                href="edukasi.html"
+                class="nav-link"
+            >
+                Edukasi
+            </a>
+
+            <a
+                href="berita.html"
+                class="nav-link"
+            >
+                Berita
+            </a>
+
+            <a
+                href="contact.html"
+                class="nav-link"
+            >
+                Kontak
+            </a>
+
+        </div>
 
     </nav>
 
-</div>
-```
-
 </header>
 
-<!-- ==================================================
+
+
+<!-- =====================================================
      MAIN
-================================================== -->
+===================================================== -->
 
-<main>
+<main class="main-container">
 
-```
-<!-- HERO -->
 
-<section class="food-hero">
+    <!-- =================================================
+         PAGE HEADER
+    ================================================== -->
 
-    <div class="container">
+    <section class="page-header">
 
-        <span class="section-badge">
-            🍽️ PERSONAL NUTRITION TRACKER
+        <span class="page-badge">
+            🍽️ PENCATATAN MAKANAN
         </span>
 
         <h1>
@@ -146,52 +144,206 @@
         </h1>
 
         <p>
-            Cari makanan dari database nutrisi,
-            masukkan berat makanan, dan sistem akan
-            menghitung kalori serta makronutrisi secara otomatis.
+            Catat makanan yang Anda konsumsi dan lihat
+            estimasi kalori serta makronutrien secara otomatis.
         </p>
 
-        <div
-            class="current-date"
-            id="currentDate"
-        >
-            -
-        </div>
-
-    </div>
-
-</section>
+    </section>
 
 
 
-<section class="container food-content">
-
-
-    <!-- ==================================================
-         DAILY SUMMARY
+    <!-- =================================================
+         API STATUS
     ================================================== -->
 
-    <section class="dashboard-card summary-card">
+    <section class="api-status-card">
 
-        <div class="card-header">
+        <div class="api-status-icon">
+            🌐
+        </div>
+
+        <div class="api-status-content">
+
+            <strong>
+                Database Makanan
+            </strong>
+
+            <span id="apiStatus">
+                USDA FoodData Central
+            </span>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         TARGET NUTRITION
+    ================================================== -->
+
+    <section class="card target-card">
+
+        <div class="section-heading">
 
             <div>
 
-                <span class="card-label">
-                    RINGKASAN HARI INI
+                <span class="section-label">
+                    TARGET HARIAN
                 </span>
 
                 <h2>
-                    Asupan Nutrisi
+                    Target Nutrisi
                 </h2>
 
             </div>
 
-            <span
-                class="food-count"
-                id="foodCount"
-            >
-                0 makanan
+            <span class="section-icon">
+                🎯
+            </span>
+
+        </div>
+
+
+        <div class="target-grid">
+
+
+            <div class="input-group">
+
+                <label for="targetCalories">
+                    Kalori
+                </label>
+
+                <div class="input-with-unit">
+
+                    <input
+                        type="number"
+                        id="targetCalories"
+                        min="1"
+                        step="1"
+                        inputmode="numeric"
+                    >
+
+                    <span>
+                        kcal
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="targetProtein">
+                    Protein
+                </label>
+
+                <div class="input-with-unit">
+
+                    <input
+                        type="number"
+                        id="targetProtein"
+                        min="0"
+                        step="1"
+                        inputmode="numeric"
+                    >
+
+                    <span>
+                        g
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="targetCarbs">
+                    Karbohidrat
+                </label>
+
+                <div class="input-with-unit">
+
+                    <input
+                        type="number"
+                        id="targetCarbs"
+                        min="0"
+                        step="1"
+                        inputmode="numeric"
+                    >
+
+                    <span>
+                        g
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="targetFat">
+                    Lemak
+                </label>
+
+                <div class="input-with-unit">
+
+                    <input
+                        type="number"
+                        id="targetFat"
+                        min="0"
+                        step="1"
+                        inputmode="numeric"
+                    >
+
+                    <span>
+                        g
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="saveTarget"
+            class="button button-primary"
+        >
+            💾 Simpan Target
+        </button>
+
+    </section>
+
+
+
+    <!-- =================================================
+         DAILY SUMMARY
+    ================================================== -->
+
+    <section class="card summary-card">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-label">
+                    RINGKASAN HARI INI
+                </span>
+
+                <h2>
+                    Asupan Hari Ini
+                </h2>
+
+            </div>
+
+            <span id="currentDate">
+                -
             </span>
 
         </div>
@@ -200,83 +352,118 @@
         <div class="summary-grid">
 
 
-            <div class="summary-item calories">
+            <!-- CALORIES -->
+
+            <div class="summary-item">
 
                 <div class="summary-icon">
                     🔥
                 </div>
 
-                <div class="summary-info">
-
-                    <span class="summary-title">
-                        Kalori
-                    </span>
-
+                <div class="summary-value">
                     <strong id="totalCalories">
                         0
                     </strong>
 
-                    <span class="summary-unit">
+                    <span>
                         kcal
                     </span>
+                </div>
 
-                    <div class="progress-track">
+                <div class="summary-label">
+                    Kalori
+                </div>
 
-                        <div
-                            class="progress-bar"
-                            id="calorieProgress"
-                        ></div>
+                <div class="progress-bar">
 
-                    </div>
+                    <div
+                        id="calorieProgress"
+                        class="progress-fill"
+                    ></div>
 
-                    <small>
-                        <span id="caloriePercentage">
-                            0%
-                        </span>
-                        dari target
-                    </small>
+                </div>
 
+                <div class="progress-info">
+
+                    <span>
+                        Target
+                        <strong id="displayTargetCalories">
+                            2000
+                        </strong>
+                    </span>
+
+                    <span id="caloriePercentage">
+                        0%
+                    </span>
+
+                </div>
+
+                <div class="remaining">
+                    Sisa
+                    <strong id="remainingCalories">
+                        2000 kcal
+                    </strong>
                 </div>
 
             </div>
 
 
 
-            <div class="summary-item protein">
+            <!-- PROTEIN -->
+
+            <div class="summary-item">
 
                 <div class="summary-icon">
                     🍗
                 </div>
 
-                <div class="summary-info">
-
-                    <span class="summary-title">
-                        Protein
-                    </span>
+                <div class="summary-value">
 
                     <strong id="totalProtein">
                         0
                     </strong>
 
-                    <span class="summary-unit">
+                    <span>
                         g
                     </span>
 
-                    <div class="progress-track">
+                </div>
 
-                        <div
-                            class="progress-bar"
-                            id="proteinProgress"
-                        ></div>
+                <div class="summary-label">
+                    Protein
+                </div>
 
-                    </div>
+                <div class="progress-bar">
 
-                    <small>
-                        <span id="proteinPercentage">
-                            0%
-                        </span>
-                        dari target
-                    </small>
+                    <div
+                        id="proteinProgress"
+                        class="progress-fill"
+                    ></div>
+
+                </div>
+
+                <div class="progress-info">
+
+                    <span>
+                        Target
+                        <strong id="displayTargetProtein">
+                            150
+                        </strong>
+                        g
+                    </span>
+
+                    <span id="proteinPercentage">
+                        0%
+                    </span>
+
+                </div>
+
+                <div class="remaining">
+
+                    Sisa
+                    <strong id="remainingProtein">
+                        150 g
+                    </strong>
 
                 </div>
 
@@ -284,41 +471,61 @@
 
 
 
-            <div class="summary-item carbs">
+            <!-- CARBS -->
+
+            <div class="summary-item">
 
                 <div class="summary-icon">
                     🍚
                 </div>
 
-                <div class="summary-info">
-
-                    <span class="summary-title">
-                        Karbohidrat
-                    </span>
+                <div class="summary-value">
 
                     <strong id="totalCarbs">
                         0
                     </strong>
 
-                    <span class="summary-unit">
+                    <span>
                         g
                     </span>
 
-                    <div class="progress-track">
+                </div>
 
-                        <div
-                            class="progress-bar"
-                            id="carbsProgress"
-                        ></div>
+                <div class="summary-label">
+                    Karbohidrat
+                </div>
 
-                    </div>
+                <div class="progress-bar">
 
-                    <small>
-                        <span id="carbsPercentage">
-                            0%
-                        </span>
-                        dari target
-                    </small>
+                    <div
+                        id="carbsProgress"
+                        class="progress-fill"
+                    ></div>
+
+                </div>
+
+                <div class="progress-info">
+
+                    <span>
+                        Target
+                        <strong id="displayTargetCarbs">
+                            200
+                        </strong>
+                        g
+                    </span>
+
+                    <span id="carbsPercentage">
+                        0%
+                    </span>
+
+                </div>
+
+                <div class="remaining">
+
+                    Sisa
+                    <strong id="remainingCarbs">
+                        200 g
+                    </strong>
 
                 </div>
 
@@ -326,69 +533,64 @@
 
 
 
-            <div class="summary-item fat">
+            <!-- FAT -->
+
+            <div class="summary-item">
 
                 <div class="summary-icon">
                     🥑
                 </div>
 
-                <div class="summary-info">
-
-                    <span class="summary-title">
-                        Lemak
-                    </span>
+                <div class="summary-value">
 
                     <strong id="totalFat">
                         0
                     </strong>
 
-                    <span class="summary-unit">
+                    <span>
                         g
                     </span>
 
-                    <div class="progress-track">
+                </div>
 
-                        <div
-                            class="progress-bar"
-                            id="fatProgress"
-                        ></div>
+                <div class="summary-label">
+                    Lemak
+                </div>
 
-                    </div>
+                <div class="progress-bar">
 
-                    <small>
-                        <span id="fatPercentage">
-                            0%
-                        </span>
-                        dari target
-                    </small>
+                    <div
+                        id="fatProgress"
+                        class="progress-fill"
+                    ></div>
 
                 </div>
 
-            </div>
+                <div class="progress-info">
 
-        </div>
+                    <span>
+                        Target
+                        <strong id="displayTargetFat">
+                            60
+                        </strong>
+                        g
+                    </span>
 
+                    <span id="fatPercentage">
+                        0%
+                    </span>
 
-        <div class="remaining-grid">
+                </div>
 
-            <div>
-                <span>Sisa kalori</span>
-                <strong id="remainingCalories">2000 kcal</strong>
-            </div>
+                <div class="remaining">
 
-            <div>
-                <span>Sisa protein</span>
-                <strong id="remainingProtein">150 g</strong>
-            </div>
+                    Sisa
+                    <strong id="remainingFat">
+                        60 g
+                    </strong>
 
-            <div>
-                <span>Sisa karbohidrat</span>
-                <strong id="remainingCarbs">200 g</strong>
-            </div>
+                </div>
 
-            <div>
-                <span>Sisa lemak</span>
-                <strong id="remainingFat">60 g</strong>
             </div>
 
         </div>
@@ -397,265 +599,299 @@
 
 
 
-    <!-- ==================================================
+    <!-- =================================================
          SEARCH FOOD
     ================================================== -->
 
-    <section class="dashboard-card add-food-card">
+    <section class="card search-card">
 
-        <div class="card-header">
+        <div class="section-heading">
 
             <div>
 
-                <span class="card-label">
-                    USDA FOOD DATABASE
+                <span class="section-label">
+                    DATABASE MAKANAN
                 </span>
 
                 <h2>
-                    🔎 Cari Makanan
+                    Cari Makanan
                 </h2>
 
             </div>
 
-            <span
-                class="ai-status"
-                id="apiStatus"
-            >
-                Online
+            <span class="section-icon">
+                🔎
             </span>
 
         </div>
 
 
-        <div class="form-group">
+        <div class="search-box">
 
             <label for="foodSearch">
                 Nama makanan
             </label>
 
-            <div class="search-wrapper">
+            <div class="search-row">
 
                 <input
                     type="search"
                     id="foodSearch"
-                    placeholder="Contoh: nasi goreng, ayam goreng, telur..."
+                    placeholder="Contoh: rice, chicken, egg..."
                     autocomplete="off"
                 >
 
                 <button
                     type="button"
                     id="searchFoodButton"
-                    class="submit-food-button"
+                    class="button button-primary"
                 >
                     🔎 Cari
                 </button>
 
             </div>
 
-            <small class="form-help">
-                Ketik minimal 2 karakter lalu tekan Cari.
-            </small>
-
         </div>
 
-
-        <!-- SEARCH STATUS -->
 
         <div
             id="searchStatus"
-            class="scanner-note"
+            class="search-status"
             style="display:none;"
-        >
-            Mencari makanan...
-        </div>
+        ></div>
 
-
-        <!-- SEARCH RESULTS -->
 
         <div
             id="searchResults"
-            class="food-list"
-        >
-        </div>
+            class="search-results"
+        ></div>
+
+    </section>
 
 
-        <!-- SELECTED FOOD -->
 
-        <div
-            id="selectedFoodBox"
-            class="nutrition-preview"
-            style="display:none;"
-        >
+    <!-- =================================================
+         SELECTED FOOD
+    ================================================== -->
 
-            <div class="preview-header">
+    <section
+        id="selectedFoodBox"
+        class="card selected-food-card"
+        style="display:none;"
+    >
 
-                <span>
-                    ✅ MAKANAN DIPILIH
+        <div class="selected-food-header">
+
+            <div>
+
+                <span class="section-label">
+                    MAKANAN DIPILIH
                 </span>
 
-                <small id="selectedFoodSource">
+                <h2 id="selectedFoodName">
+                    Makanan
+                </h2>
+
+                <p id="selectedFoodSource">
                     USDA FoodData Central
-                </small>
+                </p>
 
             </div>
 
-
-            <h3 id="selectedFoodName">
-                -
-            </h3>
-
-
-            <p id="selectedFoodNutrition">
-                -
-            </p>
-
-
-            <div class="form-group">
-
-                <label for="foodAmount">
-                    Berat makanan
-                </label>
-
-                <div class="input-with-unit">
-
-                    <input
-                        type="number"
-                        id="foodAmount"
-                        min="1"
-                        step="1"
-                        placeholder="Contoh: 150"
-                    >
-
-                    <span>
-                        gram
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="preview-grid">
-
-                <div class="preview-item">
-
-                    <span>
-                        🔥 Kalori
-                    </span>
-
-                    <strong id="previewCalories">
-                        0 kcal
-                    </strong>
-
-                </div>
-
-
-                <div class="preview-item">
-
-                    <span>
-                        🍗 Protein
-                    </span>
-
-                    <strong id="previewProtein">
-                        0 g
-                    </strong>
-
-                </div>
-
-
-                <div class="preview-item">
-
-                    <span>
-                        🍚 Karbohidrat
-                    </span>
-
-                    <strong id="previewCarbs">
-                        0 g
-                    </strong>
-
-                </div>
-
-
-                <div class="preview-item">
-
-                    <span>
-                        🥑 Lemak
-                    </span>
-
-                    <strong id="previewFat">
-                        0 g
-                    </strong>
-
-                </div>
-
+            <div class="selected-food-check">
+                ✓
             </div>
 
         </div>
 
 
+        <div
+            id="selectedFoodNutrition"
+            class="selected-food-nutrition"
+        >
+            -
+        </div>
 
-        <!-- ==================================================
+
+
+        <!-- =================================================
              ADD FOOD FORM
         ================================================== -->
 
         <form
             id="foodForm"
-            class="food-form"
             novalidate
         >
 
+            <div class="form-grid">
 
-            <div class="form-group">
 
-                <label for="mealType">
-                    Waktu makan
-                </label>
+                <div class="input-group">
 
-                <select
-                    id="mealType"
-                >
+                    <label for="mealType">
+                        Waktu makan
+                    </label>
 
-                    <option value="">
-                        Pilih waktu makan
-                    </option>
+                    <select
+                        id="mealType"
+                        required
+                    >
 
-                    <option value="Sarapan">
-                        🌅 Sarapan
-                    </option>
+                        <option value="">
+                            Pilih waktu makan
+                        </option>
 
-                    <option value="Snack Pagi">
-                        🍎 Snack Pagi
-                    </option>
+                        <option value="Sarapan">
+                            Sarapan
+                        </option>
 
-                    <option value="Makan Siang">
-                        ☀️ Makan Siang
-                    </option>
+                        <option value="Snack Pagi">
+                            Snack Pagi
+                        </option>
 
-                    <option value="Snack Sore">
-                        🍌 Snack Sore
-                    </option>
+                        <option value="Makan Siang">
+                            Makan Siang
+                        </option>
 
-                    <option value="Makan Malam">
-                        🌙 Makan Malam
-                    </option>
+                        <option value="Snack Sore">
+                            Snack Sore
+                        </option>
 
-                    <option value="Snack Malam">
-                        🥛 Snack Malam
-                    </option>
+                        <option value="Makan Malam">
+                            Makan Malam
+                        </option>
 
-                </select>
+                        <option value="Snack Malam">
+                            Snack Malam
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="foodAmount">
+                        Berat makanan
+                    </label>
+
+                    <div class="input-with-unit">
+
+                        <input
+                            type="number"
+                            id="foodAmount"
+                            min="1"
+                            step="1"
+                            placeholder="100"
+                            inputmode="decimal"
+                            required
+                        >
+
+                        <span>
+                            gram
+                        </span>
+
+                    </div>
+
+                </div>
 
             </div>
 
 
+
+            <!-- =================================================
+                 AUTOMATIC PREVIEW
+            ================================================== -->
+
+            <div class="nutrition-preview">
+
+                <div class="preview-title">
+                    Estimasi nutrisi
+                </div>
+
+
+                <div class="preview-grid">
+
+
+                    <div class="preview-item">
+
+                        <span class="preview-icon">
+                            🔥
+                        </span>
+
+                        <strong id="previewCalories">
+                            0 kcal
+                        </strong>
+
+                        <small>
+                            Kalori
+                        </small>
+
+                    </div>
+
+
+                    <div class="preview-item">
+
+                        <span class="preview-icon">
+                            🍗
+                        </span>
+
+                        <strong id="previewProtein">
+                            0 g
+                        </strong>
+
+                        <small>
+                            Protein
+                        </small>
+
+                    </div>
+
+
+                    <div class="preview-item">
+
+                        <span class="preview-icon">
+                            🍚
+                        </span>
+
+                        <strong id="previewCarbs">
+                            0 g
+                        </strong>
+
+                        <small>
+                            Karbohidrat
+                        </small>
+
+                    </div>
+
+
+                    <div class="preview-item">
+
+                        <span class="preview-icon">
+                            🥑
+                        </span>
+
+                        <strong id="previewFat">
+                            0 g
+                        </strong>
+
+                        <small>
+                            Lemak
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
             <button
                 type="submit"
-                class="submit-food-button"
-                id="addFoodButton"
+                class="button button-primary button-large"
             >
-
-                ＋ Tambahkan ke Food Logger
-
+                ➕ Tambahkan ke Catatan
             </button>
 
         </form>
@@ -664,34 +900,32 @@
 
 
 
-    <!-- ==================================================
+    <!-- =================================================
          FOOD HISTORY
     ================================================== -->
 
-    <section class="dashboard-card history-card">
+    <section class="card history-card">
 
-        <div class="card-header">
+        <div class="section-heading">
 
             <div>
 
-                <span class="card-label">
-                    HARI INI
+                <span class="section-label">
+                    CATATAN HARI INI
                 </span>
 
                 <h2>
-                    🍽️ Catatan Makanan
+                    Makanan yang Dikonsumsi
                 </h2>
 
             </div>
 
-
-            <button
-                type="button"
-                id="resetDay"
-                class="reset-button"
+            <span
+                id="foodCount"
+                class="food-count"
             >
-                Reset Hari
-            </button>
+                0 makanan
+            </span>
 
         </div>
 
@@ -710,7 +944,8 @@
             </h3>
 
             <p>
-                Cari dan tambahkan makanan pertama Anda.
+                Cari makanan di database untuk mulai
+                mencatat asupan hari ini.
             </p>
 
         </div>
@@ -721,203 +956,94 @@
             class="food-list"
         ></div>
 
+
+        <div class="history-actions">
+
+            <button
+                type="button"
+                id="resetDay"
+                class="button button-danger"
+            >
+                🗑️ Reset Catatan Hari Ini
+            </button>
+
+        </div>
+
     </section>
 
 
 
-    <!-- ==================================================
-         TARGET
+    <!-- =================================================
+         DISCLAIMER
     ================================================== -->
 
-    <section class="dashboard-card target-card">
-
-        <div class="card-header">
-
-            <div>
-
-                <span class="card-label">
-                    TARGET
-                </span>
-
-                <h2>
-                    🎯 Target Nutrisi Harian
-                </h2>
-
-            </div>
-
-        </div>
-
-
-        <div class="target-form">
-
-
-            <div class="form-group">
-
-                <label for="targetCalories">
-                    Kalori
-                </label>
-
-                <div class="input-with-unit">
-
-                    <input
-                        type="number"
-                        id="targetCalories"
-                        min="1"
-                        step="1"
-                        value="2000"
-                    >
-
-                    <span>kcal</span>
-
-                </div>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="targetProtein">
-                    Protein
-                </label>
-
-                <div class="input-with-unit">
-
-                    <input
-                        type="number"
-                        id="targetProtein"
-                        min="0"
-                        step="1"
-                        value="150"
-                    >
-
-                    <span>g</span>
-
-                </div>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="targetCarbs">
-                    Karbohidrat
-                </label>
-
-                <div class="input-with-unit">
-
-                    <input
-                        type="number"
-                        id="targetCarbs"
-                        min="0"
-                        step="1"
-                        value="200"
-                    >
-
-                    <span>g</span>
-
-                </div>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="targetFat">
-                    Lemak
-                </label>
-
-                <div class="input-with-unit">
-
-                    <input
-                        type="number"
-                        id="targetFat"
-                        min="0"
-                        step="1"
-                        value="60"
-                    >
-
-                    <span>g</span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <button
-            type="button"
-            id="saveTarget"
-            class="save-target-button"
-        >
-            💾 Simpan Target
-        </button>
-
-    </section>
-
-
-
-    <!-- DISCLAIMER -->
-
-    <div class="nutrition-disclaimer">
+    <section class="disclaimer">
 
         <strong>
             ⚠️ Catatan
         </strong>
 
         <p>
-            Data nutrisi merupakan estimasi berdasarkan
-            database makanan. Nilai aktual dapat berbeda
-            tergantung bahan, merek, ukuran dan metode
-            pengolahan makanan.
+            Nilai kalori dan makronutrien merupakan estimasi
+            berdasarkan database makanan dan dapat berbeda
+            tergantung jenis makanan, merek, ukuran porsi,
+            serta metode pengolahan.
+        </p>
+
+        <p>
+            Food Logger ini digunakan sebagai alat bantu
+            pencatatan makanan dan bukan pengganti konsultasi
+            medis secara langsung.
+        </p>
+
+    </section>
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="site-footer">
+
+    <div class="footer-content">
+
+        <div class="footer-brand">
+
+            <strong>
+                dr. Reza
+            </strong>
+
+            <span>
+                Dokter Umum
+            </span>
+
+        </div>
+
+
+        <p>
+            ©
+            <span id="footerYear">
+                2026
+            </span>
+            dr. Reza. All rights reserved.
         </p>
 
     </div>
 
-
-</section>
-```
-
-</main>
-
-<!-- ==================================================
-     FOOTER
-================================================== -->
-
-<footer class="site-footer">
-
-```
-<div class="container">
-
-    <div class="footer-brand">
-
-        <strong>
-            dr. Reza
-        </strong>
-
-        <span>
-            General Practitioner
-        </span>
-
-    </div>
-
-    <p>
-        Health & Nutrition
-    </p>
-
-    <p class="copyright">
-        ©
-        <span id="footerYear">2026</span>
-        dr. Reza.
-        All rights reserved.
-    </p>
-
-</div>
-
-
 </footer>
 
-<script src="js/food-logger.js"></script>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="food-logger.js"></script>
 
 </body>
+
 </html>
+```
