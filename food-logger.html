@@ -1,8 +1,9 @@
-
+```html
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -12,7 +13,7 @@
 
     <meta
         name="description"
-        content="Food Logger dr. Reza untuk mencatat makanan dan menghitung kalori serta makronutrien."
+        content="Food Logger dr. Reza untuk mencatat makanan dan menghitung estimasi kalori serta makronutrien."
     >
 
     <meta
@@ -22,13 +23,1301 @@
 
     <title>Food Logger - dr. Reza</title>
 
-    <link
-        rel="stylesheet"
-        href="food-logger.css"
-    >
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                Inter,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: #f4f8f6;
+            color: #20352c;
+            line-height: 1.6;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background: rgba(255,255,255,.96);
+            backdrop-filter: blur(12px);
+
+            border-bottom:
+                1px solid #e4ece8;
+        }
+
+        .navbar {
+            width: min(1180px, calc(100% - 32px));
+            min-height: 72px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 25px;
+        }
+
+        .brand {
+            text-decoration: none;
+            color: #18382b;
+
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .brand-name {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -.5px;
+        }
+
+        .brand-title {
+            margin-top: 4px;
+            font-size: .72rem;
+            color: #6d7d76;
+            font-weight: 600;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #52645c;
+
+            padding: 10px 14px;
+            border-radius: 10px;
+
+            font-size: .9rem;
+            font-weight: 650;
+
+            transition:
+                background .2s ease,
+                color .2s ease;
+        }
+
+        .nav-link:hover {
+            background: #edf6f1;
+            color: #219653;
+        }
+
+        .nav-link.active {
+            background: #e9f6ef;
+            color: #219653;
+        }
+
+        .menu-toggle {
+            display: none;
+
+            width: 44px;
+            height: 44px;
+
+            border: 1px solid #dce8e3;
+            border-radius: 11px;
+
+            background: #fff;
+            color: #18382b;
+
+            font-size: 1.25rem;
+        }
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .page {
+            width: min(1180px, calc(100% - 32px));
+            margin: auto;
+            padding: 45px 0 70px;
+        }
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+
+            padding: 55px 45px;
+            margin-bottom: 28px;
+
+            border-radius: 26px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eaf8f0 0%,
+                    #ffffff 55%,
+                    #eef7ff 100%
+                );
+
+            border: 1px solid #dfece5;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+
+            width: 260px;
+            height: 260px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(33,150,83,.07);
+
+            right: -90px;
+            top: -100px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 760px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+
+            padding: 7px 13px;
+
+            border-radius: 999px;
+
+            background: #e1f3e8;
+            color: #1d7d49;
+
+            font-size: .74rem;
+            font-weight: 800;
+            letter-spacing: .8px;
+        }
+
+        .hero h1 {
+            margin-top: 17px;
+
+            font-size:
+                clamp(2.2rem, 5vw, 4rem);
+
+            line-height: 1.05;
+            letter-spacing: -2px;
+
+            color: #17352a;
+        }
+
+        .hero p {
+            margin-top: 17px;
+
+            max-width: 680px;
+
+            color: #64756e;
+            font-size: 1rem;
+        }
+
+        /* =====================================================
+           CARDS
+        ===================================================== */
+
+        .card {
+            background: #fff;
+
+            border:
+                1px solid #e1ebe6;
+
+            border-radius: 20px;
+
+            padding: 28px;
+
+            margin-bottom: 24px;
+
+            box-shadow:
+                0 10px 35px
+                rgba(26,68,51,.055);
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 24px;
+        }
+
+        .section-label {
+            display: block;
+
+            margin-bottom: 5px;
+
+            color: #219653;
+
+            font-size: .7rem;
+            font-weight: 800;
+
+            letter-spacing: 1.6px;
+        }
+
+        .section-heading h2 {
+            font-size: 1.45rem;
+            color: #20372d;
+        }
+
+        .section-icon {
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background: #eef7f2;
+
+            font-size: 1.25rem;
+        }
+
+        /* =====================================================
+           API STATUS
+        ===================================================== */
+
+        .api-status {
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+
+            padding: 16px 18px;
+
+            margin-bottom: 24px;
+
+            border-radius: 15px;
+
+            background: #ffffff;
+            border: 1px solid #e1ebe6;
+        }
+
+        .api-dot {
+            width: 11px;
+            height: 11px;
+
+            border-radius: 50%;
+
+            background: #219653;
+
+            box-shadow:
+                0 0 0 5px
+                rgba(33,150,83,.10);
+        }
+
+        .api-dot.error {
+            background: #d9534f;
+            box-shadow:
+                0 0 0 5px
+                rgba(217,83,79,.10);
+        }
+
+        .api-status strong {
+            display: block;
+            font-size: .88rem;
+        }
+
+        .api-status span {
+            color: #71817a;
+            font-size: .78rem;
+        }
+
+        /* =====================================================
+           TARGET
+        ===================================================== */
+
+        .target-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+        }
+
+        .field label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: .82rem;
+            font-weight: 700;
+
+            color: #42564d;
+        }
+
+        .input-unit {
+            display: flex;
+
+            overflow: hidden;
+
+            border:
+                1px solid #dce7e2;
+
+            border-radius: 11px;
+
+            background: #fff;
+
+            transition: .2s;
+        }
+
+        .input-unit:focus-within {
+            border-color: #219653;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(33,150,83,.08);
+        }
+
+        .input-unit input {
+            width: 100%;
+            min-width: 0;
+
+            border: 0;
+            outline: 0;
+
+            padding: 12px;
+
+            color: #233a30;
+            background: transparent;
+        }
+
+        .input-unit span {
+            display: flex;
+            align-items: center;
+
+            padding: 0 11px;
+
+            border-left:
+                1px solid #e2ebe7;
+
+            background: #f4f8f6;
+
+            color: #77867f;
+
+            font-size: .76rem;
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .button {
+            min-height: 46px;
+
+            padding: 10px 18px;
+
+            border-radius: 11px;
+
+            border: 1px solid transparent;
+
+            font-size: .88rem;
+            font-weight: 750;
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease,
+                background .2s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-1px);
+        }
+
+        .button-primary {
+            background: #219653;
+            color: #fff;
+
+            box-shadow:
+                0 8px 20px
+                rgba(33,150,83,.16);
+        }
+
+        .button-primary:hover {
+            background: #1c8148;
+        }
+
+        .button-danger {
+            background: #fff7f7;
+            color: #c0392b;
+
+            border-color: #f0d2cf;
+        }
+
+        .button-danger:hover {
+            background: #fdeaea;
+        }
+
+        .button-large {
+            width: 100%;
+            min-height: 52px;
+
+            margin-top: 18px;
+        }
+
+        /* =====================================================
+           SUMMARY
+        ===================================================== */
+
+        .date-badge {
+            padding: 7px 11px;
+
+            border-radius: 9px;
+
+            background: #f1f6f4;
+
+            color: #687971;
+
+            font-size: .75rem;
+            font-weight: 650;
+        }
+
+        .summary-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+        }
+
+        .summary-card-item {
+            padding: 20px;
+
+            border-radius: 17px;
+
+            border:
+                1px solid #e3ebe7;
+
+            background: #fbfdfc;
+        }
+
+        .summary-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background: #edf6f1;
+
+            font-size: 1.15rem;
+        }
+
+        .summary-name {
+            margin-top: 13px;
+
+            color: #66766f;
+
+            font-size: .76rem;
+            font-weight: 700;
+        }
+
+        .summary-number {
+            display: flex;
+            align-items: baseline;
+
+            gap: 4px;
+
+            margin-top: 2px;
+        }
+
+        .summary-number strong {
+            font-size: 1.55rem;
+            color: #20382e;
+        }
+
+        .summary-number span {
+            color: #84918c;
+            font-size: .75rem;
+        }
+
+        .progress {
+            width: 100%;
+            height: 8px;
+
+            overflow: hidden;
+
+            margin-top: 13px;
+
+            border-radius: 999px;
+
+            background: #e8efeb;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+
+            border-radius: inherit;
+
+            background: #219653;
+
+            transition:
+                width .35s ease;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+
+            margin-top: 7px;
+
+            color: #7b8983;
+
+            font-size: .7rem;
+        }
+
+        .progress-info strong {
+            color: #40554b;
+        }
+
+        .remaining {
+            margin-top: 10px;
+
+            padding-top: 10px;
+
+            border-top:
+                1px solid #e7eeeb;
+
+            color: #7b8983;
+
+            font-size: .72rem;
+        }
+
+        .remaining strong {
+            color: #273e34;
+        }
+
+        /* =====================================================
+           SEARCH
+        ===================================================== */
+
+        .search-row {
+            display: grid;
+
+            grid-template-columns: 1fr 125px;
+
+            gap: 10px;
+        }
+
+        .search-row input {
+            width: 100%;
+            min-height: 49px;
+
+            padding: 11px 14px;
+
+            border:
+                1px solid #dce7e2;
+
+            border-radius: 11px;
+
+            outline: none;
+
+            background: #fff;
+
+            color: #263a32;
+        }
+
+        .search-row input:focus {
+            border-color: #219653;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(33,150,83,.08);
+        }
+
+        .search-status {
+            margin-top: 13px;
+
+            color: #687a72;
+
+            font-size: .8rem;
+        }
+
+        /* =====================================================
+           SEARCH RESULTS
+        ===================================================== */
+
+        .search-results {
+            display: flex;
+            flex-direction: column;
+
+            gap: 10px;
+
+            margin-top: 18px;
+        }
+
+        .search-result {
+            display: grid;
+
+            grid-template-columns: 1fr auto;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 16px;
+
+            border:
+                1px solid #e1ebe6;
+
+            border-radius: 14px;
+
+            background: #fbfdfc;
+        }
+
+        .result-category {
+            display: inline-block;
+
+            padding: 4px 8px;
+
+            margin-bottom: 5px;
+
+            border-radius: 7px;
+
+            background: #eaf5ef;
+
+            color: #237848;
+
+            font-size: .65rem;
+            font-weight: 800;
+        }
+
+        .result-name {
+            font-size: .94rem;
+            font-weight: 800;
+
+            color: #263c32;
+        }
+
+        .result-nutrition {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 9px 14px;
+
+            margin-top: 8px;
+
+            color: #66766f;
+
+            font-size: .7rem;
+        }
+
+        .select-food {
+            min-width: 75px;
+
+            padding: 9px 13px;
+
+            border: 0;
+            border-radius: 9px;
+
+            background: #219653;
+            color: #fff;
+
+            font-size: .78rem;
+            font-weight: 750;
+        }
+
+        /* =====================================================
+           SELECTED FOOD
+        ===================================================== */
+
+        .selected-card {
+            border-color: #bfe2cd;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #f7fcf9,
+                    #ffffff
+                );
+        }
+
+        .selected-header {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+        }
+
+        .selected-name {
+            margin-top: 3px;
+
+            font-size: 1.3rem;
+
+            color: #18382b;
+        }
+
+        .selected-source {
+            color: #7b8983;
+            font-size: .72rem;
+        }
+
+        .selected-check {
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: #219653;
+            color: #fff;
+
+            font-weight: 900;
+        }
+
+        .selected-nutrition {
+            margin: 18px 0;
+
+            padding: 13px 15px;
+
+            border-radius: 11px;
+
+            background: #eef7f2;
+
+            color: #456057;
+
+            font-size: .8rem;
+            font-weight: 650;
+        }
+
+        .food-form-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 15px;
+        }
+
+        .food-form-grid select {
+            width: 100%;
+            min-height: 49px;
+
+            padding: 11px 13px;
+
+            border:
+                1px solid #dce7e2;
+
+            border-radius: 11px;
+
+            outline: none;
+
+            background: #fff;
+            color: #263a32;
+        }
+
+        /* =====================================================
+           PREVIEW
+        ===================================================== */
+
+        .preview {
+            margin-top: 18px;
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            background: #f5f9f7;
+
+            border:
+                1px solid #e1ebe6;
+        }
+
+        .preview-title {
+            margin-bottom: 13px;
+
+            color: #4c6258;
+
+            font-size: .78rem;
+            font-weight: 800;
+        }
+
+        .preview-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 10px;
+        }
+
+        .preview-item {
+            padding: 12px;
+
+            border-radius: 11px;
+
+            background: #fff;
+
+            text-align: center;
+        }
+
+        .preview-item strong {
+            display: block;
+
+            margin-top: 4px;
+
+            color: #263b31;
+
+            font-size: .92rem;
+        }
+
+        .preview-item small {
+            color: #7c8984;
+            font-size: .65rem;
+        }
+
+        /* =====================================================
+           HISTORY
+        ===================================================== */
+
+        .history-heading {
+            display: flex;
+
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .food-count {
+            padding: 6px 11px;
+
+            border-radius: 999px;
+
+            background: #eaf5ef;
+
+            color: #237848;
+
+            font-size: .7rem;
+            font-weight: 800;
+        }
+
+        .food-list {
+            display: flex;
+            flex-direction: column;
+
+            gap: 12px;
+
+            margin-top: 18px;
+        }
+
+        .food-entry {
+            display: grid;
+
+            grid-template-columns: 1fr auto;
+
+            gap: 15px;
+
+            padding: 18px;
+
+            border:
+                1px solid #e1ebe6;
+
+            border-radius: 15px;
+
+            background: #fff;
+        }
+
+        .meal-tag {
+            display: inline-block;
+
+            padding: 4px 8px;
+
+            border-radius: 7px;
+
+            background: #edf6f1;
+
+            color: #237848;
+
+            font-size: .64rem;
+            font-weight: 800;
+        }
+
+        .food-entry h3 {
+            margin-top: 6px;
+
+            color: #263c32;
+
+            font-size: .98rem;
+        }
+
+        .food-entry-amount {
+            color: #7a8882;
+            font-size: .73rem;
+        }
+
+        .food-entry-nutrition {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 8px 14px;
+
+            margin-top: 10px;
+
+            color: #687971;
+
+            font-size: .7rem;
+        }
+
+        .delete-food {
+            width: 39px;
+            height: 39px;
+
+            border:
+                1px solid #efd8d5;
+
+            border-radius: 10px;
+
+            background: #fff8f7;
+
+            color: #c0392b;
+        }
+
+        .empty-state {
+            padding: 45px 20px;
+
+            text-align: center;
+
+            border:
+                1px dashed #cddbd5;
+
+            border-radius: 15px;
+
+            background: #fbfdfc;
+        }
+
+        .empty-icon {
+            font-size: 2rem;
+        }
+
+        .empty-state h3 {
+            margin-top: 8px;
+
+            font-size: 1rem;
+        }
+
+        .empty-state p {
+            margin-top: 4px;
+
+            color: #788780;
+
+            font-size: .8rem;
+        }
+
+        .history-actions {
+            margin-top: 18px;
+
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* =====================================================
+           DISCLAIMER
+        ===================================================== */
+
+        .disclaimer {
+            padding: 18px 20px;
+
+            border:
+                1px solid #dce8e3;
+
+            border-radius: 15px;
+
+            background: #eef6f2;
+
+            color: #60736a;
+
+            font-size: .75rem;
+        }
+
+        .disclaimer strong {
+            color: #365247;
+        }
+
+        .disclaimer p {
+            margin-top: 5px;
+        }
+
+        /* =====================================================
+           NOTIFICATION
+        ===================================================== */
+
+        .notification {
+            position: fixed;
+
+            right: 20px;
+            bottom: 20px;
+
+            z-index: 9999;
+
+            max-width: 360px;
+
+            padding: 13px 17px;
+
+            border-radius: 12px;
+
+            background: #18382b;
+            color: #fff;
+
+            box-shadow:
+                0 15px 35px
+                rgba(0,0,0,.18);
+
+            font-size: .8rem;
+            font-weight: 650;
+
+            transform:
+                translateY(20px);
+
+            opacity: 0;
+
+            transition:
+                .25s ease;
+        }
+
+        .notification.show {
+            transform:
+                translateY(0);
+
+            opacity: 1;
+        }
+
+        .notification.error {
+            background: #b63b35;
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+            padding: 35px 20px;
+
+            text-align: center;
+
+            background: #18382b;
+
+            color: #fff;
+        }
+
+        .footer strong {
+            display: block;
+
+            font-size: 1rem;
+        }
+
+        .footer span {
+            display: block;
+
+            margin-top: 3px;
+
+            color: #b7cbc2;
+
+            font-size: .72rem;
+        }
+
+        .footer p {
+            margin-top: 12px;
+
+            color: #9eb5aa;
+
+            font-size: .68rem;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .target-grid,
+            .summary-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .preview-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                min-height: 66px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                position: absolute;
+
+                top: 66px;
+                left: 0;
+                right: 0;
+
+                display: none;
+
+                flex-direction: column;
+                align-items: stretch;
+
+                padding: 10px 16px 16px;
+
+                background: #fff;
+
+                border-bottom:
+                    1px solid #e3ebe7;
+
+                box-shadow:
+                    0 15px 25px
+                    rgba(0,0,0,.07);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-link {
+                padding: 12px 14px;
+            }
+
+            .page {
+                width: calc(100% - 20px);
+                padding-top: 25px;
+            }
+
+            .hero {
+                padding: 35px 23px;
+                border-radius: 20px;
+            }
+
+            .hero h1 {
+                letter-spacing: -1px;
+            }
+
+            .card {
+                padding: 20px;
+                border-radius: 17px;
+            }
+
+            .target-grid,
+            .summary-grid,
+            .food-form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-row {
+                grid-template-columns: 1fr;
+            }
+
+            .search-result {
+                grid-template-columns: 1fr;
+            }
+
+            .select-food {
+                width: 100%;
+            }
+
+            .food-entry {
+                grid-template-columns: 1fr;
+            }
+
+            .delete-food {
+                width: 100%;
+            }
+
+            .history-actions {
+                justify-content: stretch;
+            }
+
+            .history-actions .button {
+                width: 100%;
+            }
+
+        }
+
+        @media (max-width: 420px) {
+
+            .preview-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .summary-number strong {
+                font-size: 1.35rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+        }
+
+    </style>
+
 </head>
 
+
 <body>
+
 
 <!-- =====================================================
      NAVBAR
@@ -41,16 +1330,15 @@
         <a
             href="index.html"
             class="brand"
-            aria-label="dr. Reza"
         >
 
-            <div class="brand-name">
+            <span class="brand-name">
                 dr. Reza
-            </div>
+            </span>
 
-            <div class="brand-title">
+            <span class="brand-title">
                 Dokter Umum
-            </div>
+            </span>
 
         </a>
 
@@ -59,9 +1347,8 @@
             type="button"
             id="menuToggle"
             class="menu-toggle"
-            aria-label="Buka menu"
             aria-expanded="false"
-            aria-controls="navMenu"
+            aria-label="Buka menu"
         >
             ☰
         </button>
@@ -94,17 +1381,17 @@
             </a>
 
             <a
-                href="edukasi.html"
-                class="nav-link"
-            >
-                Edukasi
-            </a>
-
-            <a
                 href="berita.html"
                 class="nav-link"
             >
                 Berita
+            </a>
+
+            <a
+                href="edukasi.html"
+                class="nav-link"
+            >
+                Edukasi
             </a>
 
             <a
@@ -121,212 +1408,67 @@
 </header>
 
 
-
 <!-- =====================================================
      MAIN
 ===================================================== -->
 
-<main class="main-container">
+<main class="page">
 
 
-    <!-- =================================================
-         PAGE HEADER
-    ================================================== -->
+    <!-- HERO -->
 
-    <section class="page-header">
+    <section class="hero">
 
-        <span class="page-badge">
-            🍽️ PENCATATAN MAKANAN
-        </span>
+        <div class="hero-content">
 
-        <h1>
-            Food Logger
-        </h1>
+            <span class="badge">
+                🍽️ PENCATATAN MAKANAN
+            </span>
 
-        <p>
-            Catat makanan yang Anda konsumsi dan lihat
-            estimasi kalori serta makronutrien secara otomatis.
-        </p>
+            <h1>
+                Food Logger
+            </h1>
+
+            <p>
+                Cari makanan, masukkan berat makanan,
+                dan lihat estimasi kalori serta
+                makronutrien secara otomatis.
+            </p>
+
+        </div>
 
     </section>
 
 
+    <!-- API STATUS -->
 
-    <!-- =================================================
-         API STATUS
-    ================================================== -->
+    <div class="api-status">
 
-    <section class="api-status-card">
+        <span
+            id="apiDot"
+            class="api-dot"
+        ></span>
 
-        <div class="api-status-icon">
-            🌐
-        </div>
-
-        <div class="api-status-content">
+        <div>
 
             <strong>
                 Database Makanan
             </strong>
 
             <span id="apiStatus">
-                USDA FoodData Central
+                Menghubungkan ke database...
             </span>
 
         </div>
 
-    </section>
-
-
-
-    <!-- =================================================
-         TARGET NUTRITION
-    ================================================== -->
-
-    <section class="card target-card">
-
-        <div class="section-heading">
-
-            <div>
-
-                <span class="section-label">
-                    TARGET HARIAN
-                </span>
-
-                <h2>
-                    Target Nutrisi
-                </h2>
-
-            </div>
-
-            <span class="section-icon">
-                🎯
-            </span>
-
-        </div>
-
-
-        <div class="target-grid">
-
-
-            <div class="input-group">
-
-                <label for="targetCalories">
-                    Kalori
-                </label>
-
-                <div class="input-with-unit">
-
-                    <input
-                        type="number"
-                        id="targetCalories"
-                        min="1"
-                        step="1"
-                        inputmode="numeric"
-                    >
-
-                    <span>
-                        kcal
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="input-group">
-
-                <label for="targetProtein">
-                    Protein
-                </label>
-
-                <div class="input-with-unit">
-
-                    <input
-                        type="number"
-                        id="targetProtein"
-                        min="0"
-                        step="1"
-                        inputmode="numeric"
-                    >
-
-                    <span>
-                        g
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="input-group">
-
-                <label for="targetCarbs">
-                    Karbohidrat
-                </label>
-
-                <div class="input-with-unit">
-
-                    <input
-                        type="number"
-                        id="targetCarbs"
-                        min="0"
-                        step="1"
-                        inputmode="numeric"
-                    >
-
-                    <span>
-                        g
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div class="input-group">
-
-                <label for="targetFat">
-                    Lemak
-                </label>
-
-                <div class="input-with-unit">
-
-                    <input
-                        type="number"
-                        id="targetFat"
-                        min="0"
-                        step="1"
-                        inputmode="numeric"
-                    >
-
-                    <span>
-                        g
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <button
-            type="button"
-            id="saveTarget"
-            class="button button-primary"
-        >
-            💾 Simpan Target
-        </button>
-
-    </section>
-
+    </div>
 
 
     <!-- =================================================
-         DAILY SUMMARY
+         SUMMARY
     ================================================== -->
 
-    <section class="card summary-card">
+    <section class="card">
 
         <div class="section-heading">
 
@@ -337,12 +1479,15 @@
                 </span>
 
                 <h2>
-                    Asupan Hari Ini
+                    Asupan Nutrisi
                 </h2>
 
             </div>
 
-            <span id="currentDate">
+            <span
+                id="currentDate"
+                class="date-badge"
+            >
                 -
             </span>
 
@@ -354,13 +1499,18 @@
 
             <!-- CALORIES -->
 
-            <div class="summary-item">
+            <div class="summary-card-item">
 
                 <div class="summary-icon">
                     🔥
                 </div>
 
-                <div class="summary-value">
+                <div class="summary-name">
+                    Kalori
+                </div>
+
+                <div class="summary-number">
+
                     <strong id="totalCalories">
                         0
                     </strong>
@@ -368,13 +1518,10 @@
                     <span>
                         kcal
                     </span>
+
                 </div>
 
-                <div class="summary-label">
-                    Kalori
-                </div>
-
-                <div class="progress-bar">
+                <div class="progress">
 
                     <div
                         id="calorieProgress"
@@ -392,32 +1539,38 @@
                         </strong>
                     </span>
 
-                    <span id="caloriePercentage">
+                    <strong id="caloriePercentage">
                         0%
-                    </span>
+                    </strong>
 
                 </div>
 
                 <div class="remaining">
-                    Sisa
+
+                    Sisa:
+
                     <strong id="remainingCalories">
                         2000 kcal
                     </strong>
+
                 </div>
 
             </div>
 
 
-
             <!-- PROTEIN -->
 
-            <div class="summary-item">
+            <div class="summary-card-item">
 
                 <div class="summary-icon">
                     🍗
                 </div>
 
-                <div class="summary-value">
+                <div class="summary-name">
+                    Protein
+                </div>
+
+                <div class="summary-number">
 
                     <strong id="totalProtein">
                         0
@@ -429,11 +1582,7 @@
 
                 </div>
 
-                <div class="summary-label">
-                    Protein
-                </div>
-
-                <div class="progress-bar">
+                <div class="progress">
 
                     <div
                         id="proteinProgress"
@@ -452,15 +1601,16 @@
                         g
                     </span>
 
-                    <span id="proteinPercentage">
+                    <strong id="proteinPercentage">
                         0%
-                    </span>
+                    </strong>
 
                 </div>
 
                 <div class="remaining">
 
-                    Sisa
+                    Sisa:
+
                     <strong id="remainingProtein">
                         150 g
                     </strong>
@@ -470,16 +1620,19 @@
             </div>
 
 
-
             <!-- CARBS -->
 
-            <div class="summary-item">
+            <div class="summary-card-item">
 
                 <div class="summary-icon">
                     🍚
                 </div>
 
-                <div class="summary-value">
+                <div class="summary-name">
+                    Karbohidrat
+                </div>
+
+                <div class="summary-number">
 
                     <strong id="totalCarbs">
                         0
@@ -491,11 +1644,7 @@
 
                 </div>
 
-                <div class="summary-label">
-                    Karbohidrat
-                </div>
-
-                <div class="progress-bar">
+                <div class="progress">
 
                     <div
                         id="carbsProgress"
@@ -514,15 +1663,16 @@
                         g
                     </span>
 
-                    <span id="carbsPercentage">
+                    <strong id="carbsPercentage">
                         0%
-                    </span>
+                    </strong>
 
                 </div>
 
                 <div class="remaining">
 
-                    Sisa
+                    Sisa:
+
                     <strong id="remainingCarbs">
                         200 g
                     </strong>
@@ -532,16 +1682,19 @@
             </div>
 
 
-
             <!-- FAT -->
 
-            <div class="summary-item">
+            <div class="summary-card-item">
 
                 <div class="summary-icon">
                     🥑
                 </div>
 
-                <div class="summary-value">
+                <div class="summary-name">
+                    Lemak
+                </div>
+
+                <div class="summary-number">
 
                     <strong id="totalFat">
                         0
@@ -553,11 +1706,7 @@
 
                 </div>
 
-                <div class="summary-label">
-                    Lemak
-                </div>
-
-                <div class="progress-bar">
+                <div class="progress">
 
                     <div
                         id="fatProgress"
@@ -576,15 +1725,16 @@
                         g
                     </span>
 
-                    <span id="fatPercentage">
+                    <strong id="fatPercentage">
                         0%
-                    </span>
+                    </strong>
 
                 </div>
 
                 <div class="remaining">
 
-                    Sisa
+                    Sisa:
+
                     <strong id="remainingFat">
                         60 g
                     </strong>
@@ -593,17 +1743,17 @@
 
             </div>
 
+
         </div>
 
     </section>
 
 
-
     <!-- =================================================
-         SEARCH FOOD
+         SEARCH
     ================================================== -->
 
-    <section class="card search-card">
+    <section class="card">
 
         <div class="section-heading">
 
@@ -626,18 +1776,27 @@
         </div>
 
 
-        <div class="search-box">
+        <div>
 
-            <label for="foodSearch">
+            <label
+                for="foodSearch"
+                style="
+                    display:block;
+                    margin-bottom:7px;
+                    font-size:.82rem;
+                    font-weight:700;
+                "
+            >
                 Nama makanan
             </label>
+
 
             <div class="search-row">
 
                 <input
                     type="search"
                     id="foodSearch"
-                    placeholder="Contoh: rice, chicken, egg..."
+                    placeholder="Contoh: nasi, chicken, egg..."
                     autocomplete="off"
                 >
 
@@ -657,8 +1816,9 @@
         <div
             id="searchStatus"
             class="search-status"
-            style="display:none;"
-        ></div>
+        >
+            Ketik minimal 2 karakter lalu tekan Cari.
+        </div>
 
 
         <div
@@ -669,18 +1829,17 @@
     </section>
 
 
-
     <!-- =================================================
          SELECTED FOOD
     ================================================== -->
 
     <section
         id="selectedFoodBox"
-        class="card selected-food-card"
+        class="card selected-card"
         style="display:none;"
     >
 
-        <div class="selected-food-header">
+        <div class="selected-header">
 
             <div>
 
@@ -688,17 +1847,23 @@
                     MAKANAN DIPILIH
                 </span>
 
-                <h2 id="selectedFoodName">
-                    Makanan
+                <h2
+                    id="selectedFoodName"
+                    class="selected-name"
+                >
+                    -
                 </h2>
 
-                <p id="selectedFoodSource">
-                    USDA FoodData Central
+                <p
+                    id="selectedFoodSource"
+                    class="selected-source"
+                >
+                    Database makanan
                 </p>
 
             </div>
 
-            <div class="selected-food-check">
+            <div class="selected-check">
                 ✓
             </div>
 
@@ -707,35 +1872,27 @@
 
         <div
             id="selectedFoodNutrition"
-            class="selected-food-nutrition"
+            class="selected-nutrition"
         >
             -
         </div>
 
-
-
-        <!-- =================================================
-             ADD FOOD FORM
-        ================================================== -->
 
         <form
             id="foodForm"
             novalidate
         >
 
-            <div class="form-grid">
+            <div class="food-form-grid">
 
 
-                <div class="input-group">
+                <div class="field">
 
                     <label for="mealType">
                         Waktu makan
                     </label>
 
-                    <select
-                        id="mealType"
-                        required
-                    >
+                    <select id="mealType">
 
                         <option value="">
                             Pilih waktu makan
@@ -770,22 +1927,21 @@
                 </div>
 
 
-                <div class="input-group">
+                <div class="field">
 
                     <label for="foodAmount">
                         Berat makanan
                     </label>
 
-                    <div class="input-with-unit">
+                    <div class="input-unit">
 
                         <input
                             type="number"
                             id="foodAmount"
                             min="1"
                             step="1"
-                            placeholder="100"
+                            placeholder="Contoh: 150"
                             inputmode="decimal"
-                            required
                         >
 
                         <span>
@@ -796,18 +1952,16 @@
 
                 </div>
 
+
             </div>
 
 
+            <!-- PREVIEW -->
 
-            <!-- =================================================
-                 AUTOMATIC PREVIEW
-            ================================================== -->
-
-            <div class="nutrition-preview">
+            <div class="preview">
 
                 <div class="preview-title">
-                    Estimasi nutrisi
+                    ESTIMASI NUTRISI
                 </div>
 
 
@@ -816,7 +1970,7 @@
 
                     <div class="preview-item">
 
-                        <span class="preview-icon">
+                        <span>
                             🔥
                         </span>
 
@@ -833,7 +1987,7 @@
 
                     <div class="preview-item">
 
-                        <span class="preview-icon">
+                        <span>
                             🍗
                         </span>
 
@@ -850,7 +2004,7 @@
 
                     <div class="preview-item">
 
-                        <span class="preview-icon">
+                        <span>
                             🍚
                         </span>
 
@@ -867,7 +2021,7 @@
 
                     <div class="preview-item">
 
-                        <span class="preview-icon">
+                        <span>
                             🥑
                         </span>
 
@@ -881,10 +2035,10 @@
 
                     </div>
 
+
                 </div>
 
             </div>
-
 
 
             <button
@@ -894,19 +2048,19 @@
                 ➕ Tambahkan ke Catatan
             </button>
 
+
         </form>
 
     </section>
 
 
-
     <!-- =================================================
-         FOOD HISTORY
+         HISTORY
     ================================================== -->
 
-    <section class="card history-card">
+    <section class="card">
 
-        <div class="section-heading">
+        <div class="history-heading">
 
             <div>
 
@@ -944,8 +2098,8 @@
             </h3>
 
             <p>
-                Cari makanan di database untuk mulai
-                mencatat asupan hari ini.
+                Cari makanan dan tambahkan
+                ke catatan hari ini.
             </p>
 
         </div>
@@ -972,10 +2126,148 @@
     </section>
 
 
-
     <!-- =================================================
-         DISCLAIMER
+         TARGET
     ================================================== -->
+
+    <section class="card">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-label">
+                    TARGET
+                </span>
+
+                <h2>
+                    Target Nutrisi Harian
+                </h2>
+
+            </div>
+
+            <span class="section-icon">
+                🎯
+            </span>
+
+        </div>
+
+
+        <div class="target-grid">
+
+
+            <div class="field">
+
+                <label for="targetCalories">
+                    Kalori
+                </label>
+
+                <div class="input-unit">
+
+                    <input
+                        type="number"
+                        id="targetCalories"
+                        min="1"
+                        step="1"
+                    >
+
+                    <span>
+                        kcal
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="targetProtein">
+                    Protein
+                </label>
+
+                <div class="input-unit">
+
+                    <input
+                        type="number"
+                        id="targetProtein"
+                        min="0"
+                        step="1"
+                    >
+
+                    <span>
+                        g
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="targetCarbs">
+                    Karbohidrat
+                </label>
+
+                <div class="input-unit">
+
+                    <input
+                        type="number"
+                        id="targetCarbs"
+                        min="0"
+                        step="1"
+                    >
+
+                    <span>
+                        g
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="targetFat">
+                    Lemak
+                </label>
+
+                <div class="input-unit">
+
+                    <input
+                        type="number"
+                        id="targetFat"
+                        min="0"
+                        step="1"
+                    >
+
+                    <span>
+                        g
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <button
+            type="button"
+            id="saveTarget"
+            class="button button-primary"
+            style="margin-top:18px;"
+        >
+            💾 Simpan Target
+        </button>
+
+    </section>
+
+
+    <!-- DISCLAIMER -->
 
     <section class="disclaimer">
 
@@ -984,65 +2276,2039 @@
         </strong>
 
         <p>
-            Nilai kalori dan makronutrien merupakan estimasi
-            berdasarkan database makanan dan dapat berbeda
-            tergantung jenis makanan, merek, ukuran porsi,
-            serta metode pengolahan.
+            Nilai kalori dan makronutrien merupakan
+            estimasi berdasarkan database makanan.
+            Nilai aktual dapat berbeda tergantung
+            bahan, merek, ukuran porsi dan metode
+            pengolahan makanan.
         </p>
 
         <p>
-            Food Logger ini digunakan sebagai alat bantu
-            pencatatan makanan dan bukan pengganti konsultasi
-            medis secara langsung.
+            Food Logger merupakan alat bantu
+            pencatatan makanan dan bukan pengganti
+            konsultasi medis secara langsung.
         </p>
 
     </section>
 
-</main>
 
+</main>
 
 
 <!-- =====================================================
      FOOTER
 ===================================================== -->
 
-<footer class="site-footer">
+<footer class="footer">
 
-    <div class="footer-content">
+    <strong>
+        dr. Reza
+    </strong>
 
-        <div class="footer-brand">
+    <span>
+        Dokter Umum
+    </span>
 
-            <strong>
-                dr. Reza
-            </strong>
-
-            <span>
-                Dokter Umum
-            </span>
-
-        </div>
-
-
-        <p>
-            ©
-            <span id="footerYear">
-                2026
-            </span>
-            dr. Reza. All rights reserved.
-        </p>
-
-    </div>
+    <p>
+        ©
+        <span id="footerYear"></span>
+        dr. Reza. All rights reserved.
+    </p>
 
 </footer>
 
 
+<script>
 
-<!-- =====================================================
-     JAVASCRIPT
-===================================================== -->
+"use strict";
 
-<script src="food-logger.js"></script>
+
+/* =====================================================
+   CONFIG
+===================================================== */
+
+const API_URL =
+    "https://dr-reza-food-api.muhammadfahreza78.workers.dev";
+
+const STORAGE_FOODS =
+    "drReza_foodLogger_foods";
+
+const STORAGE_TARGET =
+    "drReza_foodLogger_target";
+
+const STORAGE_DATE =
+    "drReza_foodLogger_date";
+
+
+const DEFAULT_TARGET = {
+
+    calories: 2000,
+    protein: 150,
+    carbs: 200,
+    fat: 60
+
+};
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const $ = id =>
+    document.getElementById(id);
+
+
+const foodSearch =
+    $("foodSearch");
+
+const searchFoodButton =
+    $("searchFoodButton");
+
+const searchResults =
+    $("searchResults");
+
+const searchStatus =
+    $("searchStatus");
+
+const apiStatus =
+    $("apiStatus");
+
+const apiDot =
+    $("apiDot");
+
+const selectedFoodBox =
+    $("selectedFoodBox");
+
+const selectedFoodName =
+    $("selectedFoodName");
+
+const selectedFoodSource =
+    $("selectedFoodSource");
+
+const selectedFoodNutrition =
+    $("selectedFoodNutrition");
+
+const foodAmount =
+    $("foodAmount");
+
+const foodForm =
+    $("foodForm");
+
+const mealType =
+    $("mealType");
+
+const foodList =
+    $("foodList");
+
+const emptyState =
+    $("emptyState");
+
+
+/* =====================================================
+   STATE
+===================================================== */
+
+let selectedFood = null;
+
+let foods = loadFoods();
+
+let target = loadTarget();
+
+
+/* =====================================================
+   FALLBACK DATABASE
+   Digunakan jika API tidak tersedia.
+===================================================== */
+
+const fallbackFoods = [
+
+    {
+        name: "Nasi putih",
+        category: "Karbohidrat",
+        kcalPer100g: 130,
+        proteinPer100g: 2.7,
+        carbsPer100g: 28,
+        fatPer100g: 0.3,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Telur ayam",
+        category: "Protein",
+        kcalPer100g: 143,
+        proteinPer100g: 12.6,
+        carbsPer100g: 0.7,
+        fatPer100g: 9.5,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Dada ayam",
+        category: "Protein",
+        kcalPer100g: 165,
+        proteinPer100g: 31,
+        carbsPer100g: 0,
+        fatPer100g: 3.6,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Ikan kembung",
+        category: "Protein",
+        kcalPer100g: 167,
+        proteinPer100g: 21.3,
+        carbsPer100g: 0,
+        fatPer100g: 8.2,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Ikan lele",
+        category: "Protein",
+        kcalPer100g: 105,
+        proteinPer100g: 18.7,
+        carbsPer100g: 0,
+        fatPer100g: 3,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Tahu",
+        category: "Protein",
+        kcalPer100g: 76,
+        proteinPer100g: 8.1,
+        carbsPer100g: .8,
+        fatPer100g: 4.8,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Tempe",
+        category: "Protein",
+        kcalPer100g: 192,
+        proteinPer100g: 20.3,
+        carbsPer100g: 7.6,
+        fatPer100g: 10.8,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Pisang",
+        category: "Buah",
+        kcalPer100g: 89,
+        proteinPer100g: 1.1,
+        carbsPer100g: 22.8,
+        fatPer100g: .3,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Apel",
+        category: "Buah",
+        kcalPer100g: 52,
+        proteinPer100g: .3,
+        carbsPer100g: 13.8,
+        fatPer100g: .2,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Pepaya",
+        category: "Buah",
+        kcalPer100g: 43,
+        proteinPer100g: .5,
+        carbsPer100g: 10.8,
+        fatPer100g: .3,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Kentang rebus",
+        category: "Karbohidrat",
+        kcalPer100g: 87,
+        proteinPer100g: 1.9,
+        carbsPer100g: 20.1,
+        fatPer100g: .1,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Ubi jalar",
+        category: "Karbohidrat",
+        kcalPer100g: 76,
+        proteinPer100g: 1.4,
+        carbsPer100g: 17.7,
+        fatPer100g: .1,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Oatmeal",
+        category: "Karbohidrat",
+        kcalPer100g: 389,
+        proteinPer100g: 16.9,
+        carbsPer100g: 66.3,
+        fatPer100g: 6.9,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Susu sapi",
+        category: "Susu",
+        kcalPer100g: 61,
+        proteinPer100g: 3.2,
+        carbsPer100g: 4.8,
+        fatPer100g: 3.3,
+        source: "Database lokal"
+    },
+
+    {
+        name: "Alpukat",
+        category: "Lemak sehat",
+        kcalPer100g: 160,
+        proteinPer100g: 2,
+        carbsPer100g: 8.5,
+        fatPer100g: 14.7,
+        source: "Database lokal"
+    }
+
+];
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function getTodayKey() {
+
+    const d = new Date();
+
+    return [
+        d.getFullYear(),
+        String(d.getMonth() + 1).padStart(2, "0"),
+        String(d.getDate()).padStart(2, "0")
+    ].join("-");
+
+}
+
+
+function formatDate() {
+
+    return new Date().toLocaleDateString(
+        "id-ID",
+        {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+$("currentDate").textContent =
+    formatDate();
+
+$("footerYear").textContent =
+    new Date().getFullYear();
+
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+function loadFoods() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                STORAGE_FOODS
+            );
+
+        if (!saved) {
+            return [];
+        }
+
+        const parsed =
+            JSON.parse(saved);
+
+        return Array.isArray(parsed)
+            ? parsed
+            : [];
+
+    } catch {
+
+        return [];
+
+    }
+
+}
+
+
+function saveFoods() {
+
+    localStorage.setItem(
+        STORAGE_FOODS,
+        JSON.stringify(foods)
+    );
+
+}
+
+
+function loadTarget() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                STORAGE_TARGET
+            );
+
+        if (!saved) {
+            return {
+                ...DEFAULT_TARGET
+            };
+        }
+
+        const parsed =
+            JSON.parse(saved);
+
+        return {
+
+            calories:
+                Number(parsed.calories)
+                || DEFAULT_TARGET.calories,
+
+            protein:
+                Number(parsed.protein)
+                || DEFAULT_TARGET.protein,
+
+            carbs:
+                Number(parsed.carbs)
+                || DEFAULT_TARGET.carbs,
+
+            fat:
+                Number(parsed.fat)
+                || DEFAULT_TARGET.fat
+
+        };
+
+    } catch {
+
+        return {
+            ...DEFAULT_TARGET
+        };
+
+    }
+
+}
+
+
+function saveTargetData() {
+
+    localStorage.setItem(
+        STORAGE_TARGET,
+        JSON.stringify(target)
+    );
+
+}
+
+
+/* =====================================================
+   NEW DAY
+===================================================== */
+
+function checkNewDay() {
+
+    const today =
+        getTodayKey();
+
+    const saved =
+        localStorage.getItem(
+            STORAGE_DATE
+        );
+
+    if (!saved) {
+
+        localStorage.setItem(
+            STORAGE_DATE,
+            today
+        );
+
+        return;
+
+    }
+
+    if (saved !== today) {
+
+        foods = [];
+
+        saveFoods();
+
+        localStorage.setItem(
+            STORAGE_DATE,
+            today
+        );
+
+    }
+
+}
+
+checkNewDay();
+
+
+/* =====================================================
+   FORMAT
+===================================================== */
+
+function formatNumber(
+    value,
+    decimals = 1
+) {
+
+    const n =
+        Number(value) || 0;
+
+    return n.toLocaleString(
+        "id-ID",
+        {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: decimals
+        }
+    );
+
+}
+
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   NORMALIZE API DATA
+===================================================== */
+
+function normalizeFood(food) {
+
+    return {
+
+        name:
+            food.name ||
+            food.description ||
+            food.foodName ||
+            "Makanan",
+
+        category:
+            food.category ||
+            food.foodCategory ||
+            "Database makanan",
+
+        kcalPer100g:
+            Number(
+                food.kcalPer100g ??
+                food.caloriesPer100g ??
+                food.calories ??
+                food.kcal ??
+                0
+            ),
+
+        proteinPer100g:
+            Number(
+                food.proteinPer100g ??
+                food.protein ??
+                0
+            ),
+
+        carbsPer100g:
+            Number(
+                food.carbsPer100g ??
+                food.carbohydratesPer100g ??
+                food.carbohydrates ??
+                food.carbs ??
+                0
+            ),
+
+        fatPer100g:
+            Number(
+                food.fatPer100g ??
+                food.fat ??
+                0
+            ),
+
+        source:
+            food.source ||
+            "USDA FoodData Central"
+
+    };
+
+}
+
+
+/* =====================================================
+   CALCULATE
+===================================================== */
+
+function calculateNutrition(
+    food,
+    grams
+) {
+
+    const weight =
+        Number(grams);
+
+    if (
+        !food ||
+        !Number.isFinite(weight) ||
+        weight <= 0
+    ) {
+
+        return {
+            calories: 0,
+            protein: 0,
+            carbs: 0,
+            fat: 0
+        };
+
+    }
+
+    const multiplier =
+        weight / 100;
+
+    return {
+
+        calories:
+            Number(food.kcalPer100g || 0)
+            * multiplier,
+
+        protein:
+            Number(food.proteinPer100g || 0)
+            * multiplier,
+
+        carbs:
+            Number(food.carbsPer100g || 0)
+            * multiplier,
+
+        fat:
+            Number(food.fatPer100g || 0)
+            * multiplier
+
+    };
+
+}
+
+
+/* =====================================================
+   API SEARCH
+===================================================== */
+
+async function searchFoods() {
+
+    const query =
+        foodSearch.value.trim();
+
+    if (query.length < 2) {
+
+        showNotification(
+            "Masukkan minimal 2 karakter.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    searchFoodButton.disabled = true;
+
+    searchFoodButton.textContent =
+        "⏳ Mencari...";
+
+    searchStatus.textContent =
+        "Sedang mencari database makanan...";
+
+    searchResults.innerHTML = "";
+
+
+    try {
+
+        const url =
+            API_URL +
+            "?q=" +
+            encodeURIComponent(query);
+
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method: "GET",
+                    headers: {
+                        "Accept":
+                            "application/json"
+                    },
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "HTTP " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "Food API:",
+            data
+        );
+
+
+        let results = [];
+
+
+        if (Array.isArray(data)) {
+
+            results = data;
+
+        } else if (
+            Array.isArray(data.foods)
+        ) {
+
+            results = data.foods;
+
+        } else if (
+            Array.isArray(data.results)
+        ) {
+
+            results = data.results;
+
+        } else if (
+            Array.isArray(data.data)
+        ) {
+
+            results = data.data;
+
+        }
+
+
+        results =
+            results.map(
+                normalizeFood
+            );
+
+
+        if (results.length === 0) {
+
+            throw new Error(
+                "Tidak ada hasil"
+            );
+
+        }
+
+
+        apiDot.classList.remove(
+            "error"
+        );
+
+        apiStatus.textContent =
+            "Terhubung ke database makanan";
+
+
+        renderSearchResults(
+            results
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "API ERROR:",
+            error
+        );
+
+
+        apiDot.classList.add(
+            "error"
+        );
+
+        apiStatus.textContent =
+            "API tidak tersedia — menggunakan database lokal";
+
+
+        const localResults =
+            fallbackFoods.filter(
+                food =>
+                    food.name
+                        .toLowerCase()
+                        .includes(
+                            query.toLowerCase()
+                        )
+            );
+
+
+        renderSearchResults(
+            localResults
+        );
+
+
+        if (localResults.length === 0) {
+
+            showSearchMessage(
+                "Makanan tidak ditemukan. Coba gunakan nama lain."
+            );
+
+        } else {
+
+            searchStatus.textContent =
+                "API tidak tersedia. Hasil berikut berasal dari database lokal.";
+
+        }
+
+    } finally {
+
+        searchFoodButton.disabled =
+            false;
+
+        searchFoodButton.textContent =
+            "🔎 Cari";
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER SEARCH
+===================================================== */
+
+function renderSearchResults(
+    results
+) {
+
+    searchResults.innerHTML = "";
+
+
+    results.forEach(
+        function(food) {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "search-result";
+
+
+            item.innerHTML = `
+
+                <div>
+
+                    <span class="result-category">
+                        ${escapeHTML(
+                            food.category
+                        )}
+                    </span>
+
+                    <div class="result-name">
+                        ${escapeHTML(
+                            food.name
+                        )}
+                    </div>
+
+                    <div class="result-nutrition">
+
+                        <span>
+                            🔥
+                            ${formatNumber(
+                                food.kcalPer100g
+                            )} kcal
+                        </span>
+
+                        <span>
+                            🍗
+                            ${formatNumber(
+                                food.proteinPer100g
+                            )} g protein
+                        </span>
+
+                        <span>
+                            🍚
+                            ${formatNumber(
+                                food.carbsPer100g
+                            )} g karbo
+                        </span>
+
+                        <span>
+                            🥑
+                            ${formatNumber(
+                                food.fatPer100g
+                            )} g lemak
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="select-food"
+                >
+                    Pilih
+                </button>
+
+            `;
+
+
+            item
+                .querySelector(
+                    ".select-food"
+                )
+                .addEventListener(
+                    "click",
+                    function() {
+
+                        selectFood(food);
+
+                    }
+                );
+
+
+            searchResults.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SELECT FOOD
+===================================================== */
+
+function selectFood(food) {
+
+    selectedFood =
+        normalizeFood(food);
+
+
+    selectedFoodBox.style.display =
+        "block";
+
+
+    selectedFoodName.textContent =
+        selectedFood.name;
+
+
+    selectedFoodSource.textContent =
+        selectedFood.source;
+
+
+    selectedFoodNutrition.textContent =
+        `${formatNumber(
+            selectedFood.kcalPer100g
+        )} kcal • ` +
+        `${formatNumber(
+            selectedFood.proteinPer100g
+        )} g protein • ` +
+        `${formatNumber(
+            selectedFood.carbsPer100g
+        )} g karbo • ` +
+        `${formatNumber(
+            selectedFood.fatPer100g
+        )} g lemak per 100 g`;
+
+
+    foodAmount.value =
+        "";
+
+    resetPreview();
+
+
+    selectedFoodBox.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+
+    setTimeout(
+        function() {
+            foodAmount.focus();
+        },
+        400
+    );
+
+
+    showNotification(
+        "Makanan dipilih. Masukkan berat makanan.",
+        "success"
+    );
+
+}
+
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+function updatePreview() {
+
+    if (!selectedFood) {
+
+        resetPreview();
+
+        return;
+
+    }
+
+
+    const grams =
+        Number(foodAmount.value);
+
+
+    if (
+        !Number.isFinite(grams) ||
+        grams <= 0
+    ) {
+
+        resetPreview();
+
+        return;
+
+    }
+
+
+    const nutrition =
+        calculateNutrition(
+            selectedFood,
+            grams
+        );
+
+
+    $("previewCalories").textContent =
+        `${formatNumber(
+            nutrition.calories
+        )} kcal`;
+
+
+    $("previewProtein").textContent =
+        `${formatNumber(
+            nutrition.protein
+        )} g`;
+
+
+    $("previewCarbs").textContent =
+        `${formatNumber(
+            nutrition.carbs
+        )} g`;
+
+
+    $("previewFat").textContent =
+        `${formatNumber(
+            nutrition.fat
+        )} g`;
+
+}
+
+
+function resetPreview() {
+
+    $("previewCalories").textContent =
+        "0 kcal";
+
+    $("previewProtein").textContent =
+        "0 g";
+
+    $("previewCarbs").textContent =
+        "0 g";
+
+    $("previewFat").textContent =
+        "0 g";
+
+}
+
+
+foodAmount.addEventListener(
+    "input",
+    updatePreview
+);
+
+
+/* =====================================================
+   ADD FOOD
+===================================================== */
+
+foodForm.addEventListener(
+    "submit",
+    function(event) {
+
+        /*
+         * WAJIB:
+         * mencegah browser refresh.
+         */
+
+        event.preventDefault();
+        event.stopPropagation();
+
+
+        if (!selectedFood) {
+
+            showNotification(
+                "Pilih makanan terlebih dahulu.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        const meal =
+            mealType.value;
+
+
+        const grams =
+            Number(foodAmount.value);
+
+
+        if (!meal) {
+
+            showNotification(
+                "Pilih waktu makan terlebih dahulu.",
+                "error"
+            );
+
+            mealType.focus();
+
+            return;
+
+        }
+
+
+        if (
+            !Number.isFinite(grams) ||
+            grams <= 0
+        ) {
+
+            showNotification(
+                "Masukkan berat makanan dalam gram.",
+                "error"
+            );
+
+            foodAmount.focus();
+
+            return;
+
+        }
+
+
+        const nutrition =
+            calculateNutrition(
+                selectedFood,
+                grams
+            );
+
+
+        const entry = {
+
+            id:
+                Date.now().toString(),
+
+            meal:
+                meal,
+
+            name:
+                selectedFood.name,
+
+            amount:
+                grams,
+
+            unit:
+                "gram",
+
+            calories:
+                nutrition.calories,
+
+            protein:
+                nutrition.protein,
+
+            carbs:
+                nutrition.carbs,
+
+            fat:
+                nutrition.fat,
+
+            source:
+                selectedFood.source,
+
+            createdAt:
+                new Date().toISOString()
+
+        };
+
+
+        foods.push(entry);
+
+        saveFoods();
+
+        renderFoods();
+
+        updateSummary();
+
+
+        selectedFood =
+            null;
+
+
+        selectedFoodBox.style.display =
+            "none";
+
+
+        foodAmount.value =
+            "";
+
+        mealType.value =
+            "";
+
+
+        resetPreview();
+
+
+        showNotification(
+            `${entry.name} berhasil ditambahkan.`,
+            "success"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   RENDER HISTORY
+===================================================== */
+
+function renderFoods() {
+
+    foodList.innerHTML = "";
+
+
+    if (
+        !foods ||
+        foods.length === 0
+    ) {
+
+        emptyState.style.display =
+            "block";
+
+        $("foodCount").textContent =
+            "0 makanan";
+
+        return;
+
+    }
+
+
+    emptyState.style.display =
+        "none";
+
+
+    $("foodCount").textContent =
+        `${foods.length} makanan`;
+
+
+    const mealOrder = {
+
+        "Sarapan": 1,
+        "Snack Pagi": 2,
+        "Makan Siang": 3,
+        "Snack Sore": 4,
+        "Makan Malam": 5,
+        "Snack Malam": 6
+
+    };
+
+
+    const sorted =
+        [...foods].sort(
+            function(a,b) {
+
+                const orderA =
+                    mealOrder[a.meal] || 99;
+
+                const orderB =
+                    mealOrder[b.meal] || 99;
+
+
+                if (
+                    orderA !== orderB
+                ) {
+
+                    return (
+                        orderA -
+                        orderB
+                    );
+
+                }
+
+
+                return (
+                    new Date(a.createdAt) -
+                    new Date(b.createdAt)
+                );
+
+            }
+        );
+
+
+    sorted.forEach(
+        function(food) {
+
+            const item =
+                document.createElement(
+                    "article"
+                );
+
+
+            item.className =
+                "food-entry";
+
+
+            item.innerHTML = `
+
+                <div>
+
+                    <span class="meal-tag">
+                        ${escapeHTML(
+                            food.meal
+                        )}
+                    </span>
+
+                    <h3>
+                        ${escapeHTML(
+                            food.name
+                        )}
+                    </h3>
+
+                    <div class="food-entry-amount">
+                        ${formatNumber(
+                            food.amount
+                        )}
+                        gram
+                    </div>
+
+                    <div class="food-entry-nutrition">
+
+                        <span>
+                            🔥
+                            ${formatNumber(
+                                food.calories
+                            )} kcal
+                        </span>
+
+                        <span>
+                            🍗
+                            ${formatNumber(
+                                food.protein
+                            )} g protein
+                        </span>
+
+                        <span>
+                            🍚
+                            ${formatNumber(
+                                food.carbs
+                            )} g karbo
+                        </span>
+
+                        <span>
+                            🥑
+                            ${formatNumber(
+                                food.fat
+                            )} g lemak
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="delete-food"
+                    data-id="${escapeHTML(
+                        food.id
+                    )}"
+                    aria-label="Hapus makanan"
+                >
+                    🗑️
+                </button>
+
+            `;
+
+
+            foodList.appendChild(
+                item
+            );
+
+        }
+    );
+
+
+    document
+        .querySelectorAll(
+            ".delete-food"
+        )
+        .forEach(
+            function(button) {
+
+                button.addEventListener(
+                    "click",
+                    function() {
+
+                        const id =
+                            button.dataset.id;
+
+
+                        const food =
+                            foods.find(
+                                item =>
+                                    String(item.id) ===
+                                    String(id)
+                            );
+
+
+                        if (!food) {
+                            return;
+                        }
+
+
+                        if (
+                            !confirm(
+                                `Hapus "${food.name}" dari catatan hari ini?`
+                            )
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        foods =
+                            foods.filter(
+                                item =>
+                                    String(item.id) !==
+                                    String(id)
+                            );
+
+
+                        saveFoods();
+
+                        renderFoods();
+
+                        updateSummary();
+
+
+                        showNotification(
+                            "Makanan berhasil dihapus.",
+                            "success"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* =====================================================
+   SUMMARY
+===================================================== */
+
+function updateSummary() {
+
+    const totals = {
+
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0
+
+    };
+
+
+    foods.forEach(
+        function(food) {
+
+            totals.calories +=
+                Number(food.calories) || 0;
+
+            totals.protein +=
+                Number(food.protein) || 0;
+
+            totals.carbs +=
+                Number(food.carbs) || 0;
+
+            totals.fat +=
+                Number(food.fat) || 0;
+
+        }
+    );
+
+
+    $("totalCalories").textContent =
+        formatNumber(
+            totals.calories
+        );
+
+
+    $("totalProtein").textContent =
+        formatNumber(
+            totals.protein
+        );
+
+
+    $("totalCarbs").textContent =
+        formatNumber(
+            totals.carbs
+        );
+
+
+    $("totalFat").textContent =
+        formatNumber(
+            totals.fat
+        );
+
+
+    const remainCalories =
+        Math.max(
+            0,
+            target.calories -
+            totals.calories
+        );
+
+
+    const remainProtein =
+        Math.max(
+            0,
+            target.protein -
+            totals.protein
+        );
+
+
+    const remainCarbs =
+        Math.max(
+            0,
+            target.carbs -
+            totals.carbs
+        );
+
+
+    const remainFat =
+        Math.max(
+            0,
+            target.fat -
+            totals.fat
+        );
+
+
+    $("remainingCalories").textContent =
+        `${formatNumber(
+            remainCalories
+        )} kcal`;
+
+
+    $("remainingProtein").textContent =
+        `${formatNumber(
+            remainProtein
+        )} g`;
+
+
+    $("remainingCarbs").textContent =
+        `${formatNumber(
+            remainCarbs
+        )} g`;
+
+
+    $("remainingFat").textContent =
+        `${formatNumber(
+            remainFat
+        )} g`;
+
+
+    updateProgress(
+        "calorieProgress",
+        "caloriePercentage",
+        totals.calories,
+        target.calories
+    );
+
+
+    updateProgress(
+        "proteinProgress",
+        "proteinPercentage",
+        totals.protein,
+        target.protein
+    );
+
+
+    updateProgress(
+        "carbsProgress",
+        "carbsPercentage",
+        totals.carbs,
+        target.carbs
+    );
+
+
+    updateProgress(
+        "fatProgress",
+        "fatPercentage",
+        totals.fat,
+        target.fat
+    );
+
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function updateProgress(
+    progressId,
+    percentageId,
+    current,
+    targetValue
+) {
+
+    const progress =
+        $(progressId);
+
+    const percentage =
+        $(percentageId);
+
+
+    if (
+        !targetValue ||
+        targetValue <= 0
+    ) {
+
+        progress.style.width =
+            "0%";
+
+        percentage.textContent =
+            "0%";
+
+        return;
+
+    }
+
+
+    const percent =
+        (
+            Number(current) /
+            Number(targetValue)
+        ) * 100;
+
+
+    const width =
+        Math.min(
+            Math.max(
+                percent,
+                0
+            ),
+            100
+        );
+
+
+    progress.style.width =
+        `${width}%`;
+
+
+    percentage.textContent =
+        `${Math.round(
+            percent
+        )}%`;
+
+}
+
+
+/* =====================================================
+   TARGET
+===================================================== */
+
+function updateTargetInputs() {
+
+    $("targetCalories").value =
+        target.calories;
+
+    $("targetProtein").value =
+        target.protein;
+
+    $("targetCarbs").value =
+        target.carbs;
+
+    $("targetFat").value =
+        target.fat;
+
+}
+
+
+$("saveTarget").addEventListener(
+    "click",
+    function() {
+
+        const calories =
+            Number(
+                $("targetCalories").value
+            );
+
+        const protein =
+            Number(
+                $("targetProtein").value
+            );
+
+        const carbs =
+            Number(
+                $("targetCarbs").value
+            );
+
+        const fat =
+            Number(
+                $("targetFat").value
+            );
+
+
+        if (
+            !Number.isFinite(calories) ||
+            calories <= 0 ||
+            protein < 0 ||
+            carbs < 0 ||
+            fat < 0
+        ) {
+
+            showNotification(
+                "Masukkan target nutrisi yang valid.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        target = {
+
+            calories,
+            protein,
+            carbs,
+            fat
+
+        };
+
+
+        saveTargetData();
+
+        updateSummary();
+
+
+        showNotification(
+            "Target nutrisi berhasil disimpan.",
+            "success"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+$("resetDay").addEventListener(
+    "click",
+    function() {
+
+        if (
+            foods.length === 0
+        ) {
+
+            showNotification(
+                "Belum ada makanan yang dicatat.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            !confirm(
+                "Yakin ingin menghapus seluruh catatan makanan hari ini?"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        foods = [];
+
+        saveFoods();
+
+        renderFoods();
+
+        updateSummary();
+
+
+        showNotification(
+            "Catatan hari ini berhasil direset.",
+            "success"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   SEARCH EVENTS
+===================================================== */
+
+searchFoodButton.addEventListener(
+    "click",
+    function(event) {
+
+        event.preventDefault();
+
+        searchFoods();
+
+    }
+);
+
+
+foodSearch.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            event.preventDefault();
+
+            searchFoods();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+$("menuToggle").addEventListener(
+    "click",
+    function() {
+
+        const menu =
+            $("navMenu");
+
+        const isOpen =
+            menu.classList.toggle(
+                "active"
+            );
+
+
+        $("menuToggle")
+            .setAttribute(
+                "aria-expanded",
+                isOpen
+                    ? "true"
+                    : "false"
+            );
+
+    }
+);
+
+
+document
+    .querySelectorAll(
+        ".nav-link"
+    )
+    .forEach(
+        function(link) {
+
+            link.addEventListener(
+                "click",
+                function() {
+
+                    $("navMenu")
+                        .classList
+                        .remove("active");
+
+                    $("menuToggle")
+                        .setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                }
+            );
+
+        }
+    );
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showSearchMessage(
+    message
+) {
+
+    searchResults.innerHTML = `
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+                🔎
+            </div>
+
+            <h3>
+                ${escapeHTML(message)}
+            </h3>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================================
+   NOTIFICATION
+===================================================== */
+
+function showNotification(
+    message,
+    type = "success"
+) {
+
+    const old =
+        document.querySelector(
+            ".notification"
+        );
+
+
+    if (old) {
+        old.remove();
+    }
+
+
+    const notification =
+        document.createElement(
+            "div"
+        );
+
+
+    notification.className =
+        `notification ${type}`;
+
+
+    notification.textContent =
+        message;
+
+
+    document.body.appendChild(
+        notification
+    );
+
+
+    requestAnimationFrame(
+        function() {
+
+            notification.classList.add(
+                "show"
+            );
+
+        }
+    );
+
+
+    setTimeout(
+        function() {
+
+            notification.classList.remove(
+                "show"
+            );
+
+
+            setTimeout(
+                function() {
+
+                    if (notification) {
+                        notification.remove();
+                    }
+
+                },
+                300
+            );
+
+        },
+        2800
+    );
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+updateTargetInputs();
+
+renderFoods();
+
+updateSummary();
+
+
+apiStatus.textContent =
+    "Siap digunakan";
+
+
+console.log(
+    "dr. Reza Food Logger berhasil dimuat."
+);
+
+</script>
+
 
 </body>
-
 </html>
+```
